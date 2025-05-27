@@ -67,6 +67,24 @@
 					
 				@endcan
 
+				@can('Customer Management')
+					<li class="menu-title "><span>Customer Management</span></li>
+					<li class="">
+						<a href="{{ route('customers.create') }}" class="{{ Route::currentRouteName() == 'customers.create' ? 'active' : '' }}"><i class="fe fe-plus-circle"></i> <span> Add Customer</span></a>
+						<a href="{{ route('customers.index') }}" class="{{ Route::currentRouteName() == 'customers.index' ? 'active' : '' }}"><i class="fe fe-list"></i> <span>Customer List</span></a>									
+					</li>
+		
+				@endcan
+
+				@can('Vendor Management')
+					<li class="menu-title "><span>Vendor Management</span></li>
+					<li class="">
+						<a href="{{ route('vendors.create') }}" class="{{ Route::currentRouteName() == 'vendors.create' ? 'active' : '' }}"><i class="fe fe-plus-circle"></i> <span> Add Vendor</span></a>
+						<a href="{{ route('vendors.index') }}" class="{{ Route::currentRouteName() == 'vendors.index' ? 'active' : '' }}"><i class="fe fe-list"></i> <span>Vendor List</span></a>									
+					</li>
+		
+				@endcan
+
 				@can('Purchase Management')
 					<li class="menu-title "><span>Purchase Management</span></li>
 					<li class="">

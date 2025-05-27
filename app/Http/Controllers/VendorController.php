@@ -6,19 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Service;
 use App\Models\User;
-use App\Models\Customer;
+use App\Models\Vendor;
 use Input;
 use Validator;
 
-class CustomerController extends Controller
+class VendorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-         $customers = Customer::latest()->get();
-        return view('frontend.pages.customer.index', compact('customers'));
+         $customers = Vendor::latest()->get();
+        return view('frontend.pages.vendor.index', compact('customers'));
     }
 
     /**
@@ -26,7 +26,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-       return view('frontend.pages.customer.create');
+       return view('frontend.pages.vendor.create');
     }
 
     /**
@@ -47,7 +47,7 @@ class CustomerController extends Controller
             return redirect()->back()->with(['error' => getNotify(4), 'error_code' => 'edit'])->withErrors($validation)->withInput();
         }
 
-        $customer = new Customer;
+        $customer = new Vendor;
         $customer->name = $request->name;
         $customer->phone = $request->phone;
         $customer->email = $request->email;
@@ -72,8 +72,8 @@ class CustomerController extends Controller
      */
     public function edit(string $id)
     {
-        $customer = Customer::findOrFail($id);
-        return view('frontend.pages.customer.edit',compact('customer'));
+        $customer = Vendor::findOrFail($id);
+        return view('frontend.pages.vendor.edit',compact('customer'));
         
     }
 
@@ -94,7 +94,7 @@ class CustomerController extends Controller
             return redirect()->back()->with(['error' => getNotify(4), 'error_code' => 'edit'])->withErrors($validation)->withInput();
         }
 
-        $customer = Customer::findOrFail($id);
+        $customer = Vendor::findOrFail($id);
         $customer->name = $request->name;
         $customer->phone = $request->phone;
         $customer->email = $request->email;
@@ -109,7 +109,7 @@ class CustomerController extends Controller
      */
     public function destroy(string $id)
     {
-       $customer = Customer::findOrFail($id);
+       $customer = Vendor::findOrFail($id);
        $customer->delete();
        return redirect()->back()->with(['success' => getNotify(3)]);
     }
