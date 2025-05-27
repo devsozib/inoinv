@@ -1,43 +1,29 @@
 <?php
 
-namespace App\Models;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class Purchase extends Model
-{
-    use HasFactory;
-
-    // Optional: define table name if not following conventions
-    protected $table = 'purchases';
-
-    // Mass assignable fields
-    protected $fillable = [
-        'product_id',
-        'quantity',
-        'unit_price',
-        'sub_price',
-        'total_price',
-        'payment',
-        'due',
-        'created_by',
-        'updated_by',
-    ];
-
-    // Relationships
-    public function product()
+return new class extends Migration {
+    public function up(): void
     {
-        return $this->belongsTo(Product::class);
+        Schema::create('purchases', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->integer('quantity');
+            $table->decimal('unit_price', 10, 2);
+            $table->decimal('sub_price', 10, 2)->nullable();
+            $table->decimal('total_price', 10, 2);
+            $table->decimal('payment', 10, 2)->nullable();
+            $table->decimal('due', 10, 2)->nullable();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->timestamps();
+        });
     }
 
-    public function creator()
+    public function down(): void
     {
-        return $this->belongsTo(User::class, 'created_by');
+        Schema::dropIfExists('purchases');
     }
-
-    public function updater()
-    {
-        return $this->belongsTo(User::class, 'updated_by');
-    }
-}
+};
