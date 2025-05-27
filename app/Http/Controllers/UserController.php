@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Extra;
@@ -22,7 +22,7 @@ class UserController extends Controller
             ->select('users.*', 'roles.name as roleName')
             ->orderBy('users.id', 'desc')
             ->get();
-        return view('admin.pages.users.index', compact('users'));
+        return view('frontend.pages.users.index', compact('users'));
     }
 
     /**
@@ -31,7 +31,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::get();
-        return view('admin.pages.users.create', compact('roles'));
+        return view('frontend.pages.users.create', compact('roles'));
     }
 
     /**
@@ -98,7 +98,7 @@ class UserController extends Controller
     {
         $roles = Role::get();
         $user = User::where('id', $id)->first();
-        return view('admin.pages.users.edit', compact('roles', 'user'));
+        return view('frontend.pages.users.edit', compact('roles', 'user'));
     }
 
     /**
@@ -162,7 +162,7 @@ class UserController extends Controller
     public function pin()
     {
         $extras = Extra::where('status', '1')->get();
-        return view('admin.pages.users.pin', compact('extras'));
+        return view('frontend.pages.users.pin', compact('extras'));
     }
 
     public function pinStore(Request $request) {

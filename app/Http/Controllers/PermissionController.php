@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::get();
-        return view('admin.pages.permission.index', compact('permissions'));
+        return view('frontend.pages.permission.index', compact('permissions'));
     }
 
     /**
@@ -22,7 +22,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.permission.create');
+        return view('frontend.pages.permission.create');
     }
 
     /**
@@ -63,7 +63,7 @@ class PermissionController extends Controller
      */
     public function edit(string $id)
     {   $permission = Permission::where('id',$id)->first();
-        return view('admin.pages.permission.edit',compact('permission'));
+        return view('frontend.pages.permission.edit',compact('permission'));
     }
 
     /**
