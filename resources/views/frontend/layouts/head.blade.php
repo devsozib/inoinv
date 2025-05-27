@@ -7,24 +7,24 @@
         <!-- Twitter -->
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:site" content="@dreamstechnologies">
-        <meta name="twitter:title" content="Finance & Accounting Admin Website Templates | Kanakku">
+        <meta name="twitter:title" content="FInoodexInventory">
         <meta name="twitter:description" content="Kanakku is a Sales, Invoices & Accounts Admin template for Accountant or Companies/Offices with various features for all your needs. Try Demo and Buy Now.">
         <meta name="twitter:image" content="../../assets/img/kanakku.html">
         <meta name="twitter:image:alt" content="Kanakku">  
 
         <!-- Facebook -->
         <meta property="og:url" content="https://kanakku.dreamstechnologies.com/">
-        <meta property="og:title" content="Finance & Accounting Admin Website Templates | Kanakku">
+        <meta property="og:title" content="FInoodexInventory">
         <meta property="og:description" content="Kanakku is a Sales, Invoices & Accounts Admin template for Accountant or Companies/Offices with various features for all your needs. Try Demo and Buy Now.">
         <meta property="og:image" content="../../assets/img/kanakku.html">
         <meta property="og:image:secure_url" content="../../assets/img/kanakku.html">
         <meta property="og:image:type" content="image/png">
         <meta property="og:image:width" content="1200" >
         <meta property="og:image:height" content="600" > 
-		<title>Quick Phone Fix</title>
+		<title>Inoodex Inventory</title>
 		
 		<!-- Favicon -->
-		<link rel="shortcut icon" href="{{asset('assets')}}/img/favicon.png">
+		<link rel="shortcut icon" href="{{asset('assets')}}/img/logo.png">
 		
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="{{asset('assets')}}/css/bootstrap.min.css">

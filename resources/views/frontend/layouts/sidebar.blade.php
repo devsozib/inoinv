@@ -66,6 +66,13 @@
 					</li>
 					
 				@endcan
+
+				@can('Purchase Management')
+					<li class="menu-title "><span>Purchase Management</span></li>
+					<li class="">
+						<a href="{{ route('purchase.index') }}" class="{{ Route::currentRouteName() == 'purchase.index' ? 'active' : '' }}"><i class="fe fe-package"></i> <span> Purchase List</span></a>									
+					</li>					
+				@endcan
 {{-- 			
 				<li class="menu-title"><span>Daily Sales</span></li>
 				<li>
