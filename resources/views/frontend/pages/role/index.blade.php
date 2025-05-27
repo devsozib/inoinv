@@ -49,7 +49,7 @@
                                 <tr>
                                     <td>{{ $loop->index+1 }}</td>                                    
                                     <td>{{ $item->name }}</td>                     
-                                      <td><button type="button" class="btn btn-sm btn-primary waves-effect waves-light"><a href="{{ route('role.edit',$item->id) }}"><i class="fe fe-edit" style="color: #fff"></i></a></button>| <button type="button" data-bs-toggle="modal" data-bs-target="#myModal{{ $item->id }}" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fe fe-trash-2"></i></button>                                      
+                                      <td><a href="{{ route('role.edit',$item->id) }}"><button type="button" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fe fe-edit" style="color: #fff"></i></button></a>| <button type="button" data-bs-toggle="modal" data-bs-target="#myModal{{ $item->id }}" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fe fe-trash-2"></i></button>                                      
                                     </td>
                                     <!-- Default Modals -->
                                     <div id="myModal{{ $item->id }}" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">

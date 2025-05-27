@@ -48,46 +48,47 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('slider', SliderController::class);
         Route::resource('home-ad', AdsController::class);
     });
-});
 
-Route::group(['middleware' => ['permission:Administration']], function () {
-    Route::resource('users', UserController::class);
-    Route::resource('role', RoleController::class);
-    Route::resource('permission', PermissionController::class);
-    Route::resource('attendance', AttendanceController::class);
 
-    Route::get('/user/pin', [UserController::class,'pin'])->name('users.pin');
-    Route::post('/user/pin', [UserController::class,'pinStore'])->name('users.pin_store');
-});
+    Route::group(['middleware' => ['permission:Administration']], function () {
+        Route::resource('users', UserController::class);
+        Route::resource('role', RoleController::class);
+        Route::resource('permission', PermissionController::class);
+        Route::resource('attendance', AttendanceController::class);
 
-Route::group(['middleware' => ['permission:Service Management']], function () {
-    Route::resource('service', ServiceController::class);
-    Route::get('service/invoice/{id}', [ServiceController::class, 'makeInvoice'])->name('service.invoice');
-    Route::get('complated/service', [ServiceController::class, 'complatedService'])->name('service.complated');
-    Route::post('service/makecomplate/{id}', [ServiceController::class, 'makeComplate'])->name('service.makecomplate');
-    Route::get('service-payments', [ServiceController::class, 'payments'])->name('service.payments');
-    Route::post('/submit-rating', [ServiceController::class, 'storeRating'])->name('submit.rating');
+        Route::get('/user/pin', [UserController::class,'pin'])->name('users.pin');
+        Route::post('/user/pin', [UserController::class,'pinStore'])->name('users.pin_store');
+    });
 
-});
-Route::group(['middleware' => ['permission:Sales Management']], function () {
-    Route::resource('sales', SalesController::class);
-    Route::get('sales/invoice/{id}', [SalesController::class, 'makeInvoice'])->name('sales.invoice');
-    Route::get('sales-payments', [SalesController::class, 'payments'])->name('sales.payments');
-});
+    Route::group(['middleware' => ['permission:Service Management']], function () {
+        Route::resource('service', ServiceController::class);
+        Route::get('service/invoice/{id}', [ServiceController::class, 'makeInvoice'])->name('service.invoice');
+        Route::get('complated/service', [ServiceController::class, 'complatedService'])->name('service.complated');
+        Route::post('service/makecomplate/{id}', [ServiceController::class, 'makeComplate'])->name('service.makecomplate');
+        Route::get('service-payments', [ServiceController::class, 'payments'])->name('service.payments');
+        Route::post('/submit-rating', [ServiceController::class, 'storeRating'])->name('submit.rating');
 
-Route::resource('dailySales', DailySaleController::class);
-Route::resource('salesTarget', SalesTargetController::class);
-Route::resource('dailyExpenses', ExpenseController::class);
+    });
+    Route::group(['middleware' => ['permission:Sales Management']], function () {
+        Route::resource('sales', SalesController::class);
+        Route::get('sales/invoice/{id}', [SalesController::class, 'makeInvoice'])->name('sales.invoice');
+        Route::get('sales-payments', [SalesController::class, 'payments'])->name('sales.payments');
+    });
 
-// Route::group(['middleware' => ['permission:Service Management|Sales Management']], function () {
-//     Route::get('payments/{id}/{payment_for}', [PaymentController::class, 'payments'])->name('payments');
-//     Route::post('add/payment', [PaymentController::class, 'addPayment'])->name('add.payment');
-//     Route::post('update/payment/{id}', [PaymentController::class, 'updatePayment'])->name('update.payment');
-//     Route::delete('delete/payment/{id}', [PaymentController::class, 'deletePayment'])->name('delete.payment');
-//     Route::resource('products', ProductContoller::class);
-// });
+    Route::resource('dailySales', DailySaleController::class);
+    Route::resource('salesTarget', SalesTargetController::class);
+    Route::resource('dailyExpenses', ExpenseController::class);
+
+    
+    // Route::group(['middleware' => ['permission:Service Management|Sales Management']], function () {
+    //     Route::get('payments/{id}/{payment_for}', [PaymentController::class, 'payments'])->name('payments');
+    //     Route::post('add/payment', [PaymentController::class, 'addPayment'])->name('add.payment');
+    //     Route::post('update/payment/{id}', [PaymentController::class, 'updatePayment'])->name('update.payment');
+    //     Route::delete('delete/payment/{id}', [PaymentController::class, 'deletePayment'])->name('delete.payment');
+    //     Route::resource('products', ProductContoller::class);
+    // });
  
-   
+});
 
 
 Auth::routes([
