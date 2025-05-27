@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,7 +16,7 @@ class RoleController extends Controller
     public function index()
     {
         $users = Role::get();
-        return view('admin.pages.role.index', compact('users'));
+        return view('frontend.pages.role.index', compact('users'));
     }
 
     /**
@@ -25,7 +25,7 @@ class RoleController extends Controller
     public function create()
     {
         $permissions = Permission::get();
-        return view('admin.pages.role.create',compact('permissions'));
+        return view('frontend.pages.role.create',compact('permissions'));
     }
 
     /**
@@ -77,7 +77,7 @@ class RoleController extends Controller
         ->where('role_id',$id)
         ->get();
 
-        return view('admin.pages.role.edit', compact('role','permissions','roleHasPermissions'));
+        return view('frontend.pages.role.edit', compact('role','permissions','roleHasPermissions'));
     }
 
     /**
