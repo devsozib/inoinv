@@ -67,6 +67,14 @@
 					
 				@endcan
 
+				@can('Sales Management')
+					<li class="menu-title "><span>Sales Management</span></li>
+					<li class="">
+						<a href="{{ route('sales.create') }}" class="{{ Route::currentRouteName() == 'sales.create' ? 'active' : '' }}"><i class="fe fe-plus-circle"></i> <span> Add Sales</span></a>
+						<a href="{{ route('sales.index') }}" class="{{ Route::currentRouteName() == 'sales.index' ? 'active' : '' }}"><i class="fe fe-list"></i> <span>Sales List</span></a>									
+					</li>
+				@endcan
+
 				@can('Customer Management')
 					<li class="menu-title "><span>Customer Management</span></li>
 					<li class="">
