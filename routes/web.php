@@ -6,6 +6,8 @@ use App\Mail\VerificationMail;
 use App\Models\Admin\DelivaryCharge;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\StaffController;
@@ -18,8 +20,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\PaytrailController;
 use App\Http\Controllers\PurchaseController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\PermissionController;
 
 
@@ -42,6 +43,12 @@ Route::middleware(['auth'])->group(function () {
         }); 
     });
 
+     //Inventory Management
+    Route::group(['middleware' => ['permission:Inventory Management']], function () {
+        Route::prefix('inventory')->middleware(['auth'])->group(function () {
+            Route::resource('inventory', InventoryController::class);
+        }); 
+    });
 
     //Order Management
     Route::group(['middleware' => ['permission:content-management']], function () {
