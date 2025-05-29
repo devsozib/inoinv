@@ -84,7 +84,7 @@
 												</div>
 											</div>
 											<div class="col-6 text-end">
-												{{-- <a class="forgot-link" href="{{route('password.request')}}">Forgot Password ?</a> --}}
+												
 											</div>
 										</div>
 									</div>

@@ -17,6 +17,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\PaytrailController;
 use App\Http\Controllers\PurchaseController;
@@ -33,6 +34,20 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['middleware' => ['permission:Product Management']], function () {
         Route::prefix('product')->middleware(['auth'])->group(function () {
             Route::resource('products', ProductContoller::class);
+        }); 
+    }); 
+
+    //Customer Management
+    Route::group(['middleware' => ['permission:Customer Management']], function () {
+        Route::middleware(['auth'])->group(function () {
+            Route::resource('customers', CustomerController::class);
+        }); 
+    }); 
+
+     //Vendor Management
+    Route::group(['middleware' => ['permission:Vendor Management']], function () {
+        Route::middleware(['auth'])->group(function () {
+            Route::resource('vendors', VendorController::class);
         }); 
     }); 
         

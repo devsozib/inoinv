@@ -112,7 +112,7 @@ class SalesController extends Controller
     public function create()
     {
         $users  = User::get();
-        $products = Product::where('status','1')->where('type','2')->get();
+        $products = Product::where('status','1')->get();
         return view('frontend.pages.sales.create',compact('products','users'));
     }
 

@@ -22,13 +22,61 @@
 }
 </style>
 
-<div class="content container-fluid">
+<div class="content container-fluid pt-0">
+					<div class="card mb-3">
+						<div class="card-body">
+							<!-- Page Header -->
+							<div class="page-header mb-3">
+								<div class="content-page-header mb-3">
+									<h6>Customer Info</h5>
+								</div>	
+							</div>
+							<!-- /Page Header -->				
+							<div class="row">
+								<div class="col-md-12">
+									<form action="{{route('sales.store')}}" method="post">
+                                        @csrf
+										<div class="form-group-item mb-0 pb-0">
+											<h5 class="form-title d-none">Basic Details</h5>
+											<div class="row">
+												<div class="col-lg-4 col-md-6 col-sm-12">
+													<div class="input-block mb-3">
+														<label>Name <span class="text-danger">*</span></label> 
+														<input type="text" name="name" class="form-control p-2" placeholder="Enter Name" value="{{ old('name') }}" required autocomplete="off">
+													</div>
+												</div>
+												
+
+                                            
+                                                <div class="col-lg-4 col-md-6 col-sm-12">
+													<div class="input-block mb-3">
+														<label>Phone <span class="text-danger">*</span></label>
+                                                       <input type="tel" class="form-control p-2" name="phone" id="phone" pattern="[0-9]{11}" maxlength="11" placeholder="Enter phone number" required>
+													</div>
+												</div>
+
+                                                <div class="col-lg-4 col-md-6 col-sm-12">
+													<div class="input-block mb-3">
+														<label>Address <span class="text-danger">*</span></label>
+                                                        <input type="text"  class="form-control p-2" placeholder="Enter Address" id="address" name="address" value="{{ old('address') }}" required autocomplete="off">
+													</div>
+												</div>
+
+											</div>
+										</div>
+
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
 					<div class="card mb-0">
 						<div class="card-body">
 							<!-- Page Header -->
-							<div class="page-header">
-								<div class="content-page-header">
-									<h5>Add Sales</h5>
+							<div class="page-header mb-3">
+								<div class="content-page-header mb-3">
+									<h6>Cart Info</h6>
 								</div>	
 							</div>
 							<!-- /Page Header -->				
@@ -37,59 +85,9 @@
 									<form action="{{route('sales.store')}}" method="post">
                                         @csrf
 										<div class="form-group-item">
-											<h5 class="form-title d-none">Basic Details</h5>
-											<div class="profile-picture d-none">
-												<div class="upload-profile">
-													<div class="profile-img">
-														<img id="blah" class="avatar" src="" alt="profile-img">
-													</div>
-													<div class="add-profile">
-														<h5>Upload a New Photo</h5>
-														<span id="imageName"></span>
-													</div>
-												</div>
-												<div class="img-upload">
-													<label class="btn btn-upload">
-														Upload <input type="file">
-													</label>
-													<a class="btn btn-remove d-none">Remove</a>
-												</div>										
-											</div>
+											
 											<div class="row">
-												<div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Name <span class="text-danger">*</span></label> 
-														<input type="text" name="name" class="form-control" placeholder="Enter Name" value="{{ old('name') }}" required autocomplete="off">
-													</div>
-												</div>
-												<div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Phone<span class="text-danger">*</span> </label>
-														<div class="input-group">
-															<select name="country_code" id="country_code" class="form-select phoneCode" style="max-width:110px;">
-																@foreach (country_codes() as $key => $data)
-																	<option  value="{{$key}}" data-show="{{$data['flag'].' '.$data['code']}}" data-showdefault="{{$data['flag'].' '.$data['code'].' '.$data['name']}}">{{$data['flag'].' '.$data['code']}}</option>
-																@endforeach
-															</select>
-															<input type="text"  class="form-control" placeholder="Phone Number" name="phone" value="{{ old('phone') }}" required autocomplete="off">
-														</div>
-													</div>
-												</div>
-												<div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3 " >
-														<label>Email </label>
-														<input type="email" name="email" class="form-control" placeholder="Enter Email Address" value="{{ old('email') }}" autocomplete="off">
-													</div>											
-												</div>
-
-                                                <div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Address </label>
-														<textarea type="text"  class="form-control" placeholder="Address" name="address" autocomplete="off">{{ old('address') }}</textarea>
-													</div>
-												</div>
-
-                                                <div class="col-lg-4 col-md-6 col-sm-12">
+												 <div class="col-lg-4 col-md-6 col-sm-12">
 													<div class="input-block mb-3">
 														<label>Product Name <span class="text-danger">*</span></label>
 														<!-- <input type="text"  class="form-control" placeholder="Product Name" name="product_name" value="{{ old('product_name') }}" required> -->
@@ -101,74 +99,30 @@
 														 </select>
 													</div>
 												</div>
+												<div class="col-lg-4 col-md-6 col-sm-12">
+													<div class="input-block mb-3">
+														<label>Name <span class="text-danger">*</span></label> 
+														<input type="text" name="name" class="form-control p-2" placeholder="Enter Name" value="{{ old('name') }}" required autocomplete="off">
+													</div>
+												</div>
+												<div class="col-lg-4 col-md-6 col-sm-12">
+													<div class="input-block mb-3 " >
+														<label>Email </label>
+														<input type="email" name="email" class="form-control p-2" placeholder="Enter Email Address" value="{{ old('email') }}" autocomplete="off">
+													</div>											
+												</div>
+
+                                               
+
+                                               
 
                                             
-                                                <div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Price <span class="text-danger">*</span></label>
-                                                        <input onchange="getTotal()"  type="number"  class="form-control" placeholder="Price" id="price" name="price" value="{{ old('price') }}" required autocomplete="off">
-													</div>
-												</div>
+                                               
 
-                                                <div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Qty <span class="text-danger">*</span></label>
-                                                        <input onchange="getTotal()" type="number"  class="form-control" placeholder="Qty" id="qty" name="qty" value="{{ old('qty') }}" required autocomplete="off">
-													</div>
-												</div>
-
-                                                <div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Total </label>
-                                                        <input id="total" type="number"  class="form-control" readonly>
-													</div>
-												</div>
-
-												<div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Discount </label>
-                                                        <input type="number" onchange="makeDiscount()"  class="form-control" placeholder="Discount" id="discount" name="discount" value="{{ old('discount') }}" autocomplete="off">
-													</div>
-												</div>
-
-												<div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Paid Amount</label>
-                                                        <input onchange="calculateDue()" type="number"  class="form-control" placeholder="Paid Amount" id="paid_amount" name="paid_amount" value="{{ old('paid_amount') }}" autocomplete="off">
-													</div>
-												</div>
-
-												<div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Due Amount</label>
-                                                        <input type="number"  class="form-control" placeholder="Due Amount" id="due_amount" name="due_amount" value="{{ old('due_amount') }}" readonly autocomplete="off">
-													</div>
-												</div>
+												
 
 
-												<div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Payment Method </label>
-                                                        <Select class="form-select" name="payment_method_id">
-                                                            <option value="">--Select--</option>
-                                                            @foreach (paymentMethods() as $key => $name)
-															<option value="{{$key}}" {{ old('payment_method_id') == $key ? 'selected' : '' }}>{{$name}}</option>
-                                                            @endforeach
-                                                        </Select>
-													</div>
-												</div>
 
-												<div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Sales By <span class="text-danger">*</span></label>
-                                                        <Select class="form-select" name="sales_by" required>
-                                                            <option value="">--Select--</option>
-                                                            @foreach ($users as $user)
-															<option value="{{$user->id}}" {{ old('sales_by') == $user->id ? 'selected' : '' }}>{{$user->name}}</option>
-                                                            @endforeach
-                                                        </Select>
-													</div>
-												</div>
 
 											</div>
 										</div>
@@ -181,7 +135,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
