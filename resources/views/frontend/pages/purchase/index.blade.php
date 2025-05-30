@@ -45,7 +45,7 @@
                 <select class="form-control select2" name="product_id" required>
                 <option value="">Select Product</option>
                 @foreach($products as $product)
-                    <option value="{{ $product->id }}">{{ $product->name }}</option>
+                    <option value="{{ $product->id }}">{{ $product->name }}({{  $product->model }})</option>
                 @endforeach
                 </select>
             </div>
@@ -114,7 +114,7 @@
                     @foreach($purchases as $purchase)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $purchase->product->name ?? 'N/A' }}</td>
+                        <td>{{ $purchase->product->name ?? 'N/A' }}({{ $purchase->product->model ?? 'N/A' }})</td>
                         <td>{{ $purchase->quantity }}</td>
                         <td>{{ $purchase->unit_price }}</td>
                         <td>{{ $purchase->total_price }}</td>
