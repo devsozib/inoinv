@@ -19,271 +19,13 @@
   }
   </style>
 <div class="content container-fluid">
-  <div class="row">
-    <div class="col-12">
-      <div class="page-header">
-        <div class="content-page-header">
-          <h5>Sales Report</h5>
-        </div>
-      </div>
-    </div>
-    <div class="custom-col-xl-2 col-sm-6 col-12">
-      <div class="card">
-        <div class="card-body p-2">
-          <div class="d-flex justify-content-end" style="">
-            <a href="{{route('sales.index', ['from' => date('Y-m-d'), 'to' => date('Y-m-d')])}}" class="bg-1 text-center rounded" style="width:20px; height:20px;"><i class="fe fe-filter"></i></a>
-          </div>
-          <div class="dash-widget-header">
-            <span class="dash-widget-icon bg-1">
-              <i class="fas fa-dollar-sign"></i>
-            </span>
-            <div class="dash-count">
-              <div class="dash-title">Today's Sales</div>
-              <div class="dash-counts">
-                <p>{{$todaysSalesRevenue}}</p>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-    <div class="custom-col-xl-2 col-sm-6 col-12">
-      <div class="card">
-        <div class="card-body p-2">
-          <div class="d-flex justify-content-end" style="">
-            <a href="{{route('sales.index', ['from' => now()->startOfWeek()->format('Y-m-d'), 'to' => now()->endOfWeek()->format('Y-m-d')])}}" class="bg-1 text-center rounded" style="width:20px; height:20px;"><i class="fe fe-filter"></i></a>
-          </div>
-          <div class="dash-widget-header">
-            <span class="dash-widget-icon bg-1">
-              <i class="fas fa-dollar-sign"></i>
-            </span>
-            <div class="dash-count">
-              <div class="dash-title">This week Sales</div>
-              <div class="dash-counts">
-                <p>{{$thisWeeksSalesRevenue}}</p>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-    <div class="custom-col-xl-2 col-sm-6 col-12">
-      <div class="card">
-        <div class="card-body p-2">
-          <div class="d-flex justify-content-end" style="">
-            <a href="{{route('sales.index', ['from' => now()->startOfMonth()->format('Y-m-d'), 'to' => now()->endOfMonth()->format('Y-m-d')])}}" class="bg-1 text-center rounded" style="width:20px; height:20px;"><i class="fe fe-filter"></i></a>
-          </div>
-          <div class="dash-widget-header">
-            <span class="dash-widget-icon bg-1">
-              <i class="fas fa-dollar-sign"></i>
-            </span>
-            <div class="dash-count">
-              <div class="dash-title">This Month Sales</div>
-              <div class="dash-counts">
-                <p>{{$thisMonthsSalesRevenue}}</p>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-    <div class="custom-col-xl-2 col-sm-6 col-12">
-      <div class="card">
-        <div class="card-body p-2">
-          <div class="d-flex justify-content-end" style="">
-            <a href="{{route('sales.index', ['from' => now()->startOfYear()->format('Y-m-d'), 'to' => now()->endOfYear()->format('Y-m-d')])}}" class="bg-1 text-center rounded" style="width:20px; height:20px;"><i class="fe fe-filter"></i></a>
-          </div>
-          <div class="dash-widget-header">
-            <span class="dash-widget-icon bg-1">
-              <i class="fas fa-dollar-sign"></i>
-            </span>
-            <div class="dash-count">
-              <div class="dash-title">This Year Sales</div>
-              <div class="dash-counts">
-                <p>{{$thisYearsSalesRevenue}}</p>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-    <div class="custom-col-xl-2 col-sm-6 col-12">
-      <div class="card">
-        <div class="card-body p-2">
-          <div class="d-flex justify-content-end" style="">
-            <a href="{{route('sales.index', ['sales_type' => 'due'])}}" class="bg-1 text-center rounded" style="width:20px; height:20px;"><i class="fe fe-filter"></i></a>
-          </div>
-          <div class="dash-widget-header">
-            <span class="dash-widget-icon bg-1 bg-danger">
-              <i class="fas fa-dollar-sign"></i>
-            </span>
-            <div class="dash-count">
-              <div class="dash-title text-danger">Dues of Sales</div>
-              <div class="dash-counts">
-                <p class="text-danger">{{$totalSalesDues}}</p>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
 
-    
-    <div class="col-12">
-      <div class="page-header">
-        <div class="content-page-header">
-          <h5>Daily Sales Report</h5>
-        </div>
-      </div>
-    </div>
-
-    <div class="custom-col-xl-2 col-sm-6 col-12">
-      <div class="card">
-        <div class="card-body p-2">
-          <div class="d-flex justify-content-end" style="">
-            <a href="{{route('dailySales.index', ['from' => date('Y-m-d'), 'to' => date('Y-m-d')])}}" class="bg-1 text-center rounded" style="width:20px; height:20px;"><i class="fe fe-filter"></i></a>
-          </div>
-          <div class="dash-widget-header">
-            <span class="dash-widget-icon bg-1">
-              <i class="fas fa-dollar-sign"></i>
-            </span>
-            <div class="dash-count">
-              <div class="dash-title">Today's Sales</div>
-              <div class="dash-counts">
-                <p>{{$todaysDailySalesRevenue}}</p>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-    <div class="custom-col-xl-2 col-sm-6 col-12">
-      <div class="card">
-        <div class="card-body p-2">
-          <div class="d-flex justify-content-end" style="">
-            <a href="{{route('dailySales.index', ['from' => now()->startOfWeek()->format('Y-m-d'), 'to' => now()->endOfWeek()->format('Y-m-d')])}}" class="bg-1 text-center rounded" style="width:20px; height:20px;"><i class="fe fe-filter"></i></a>
-          </div>
-          <div class="dash-widget-header">
-            <span class="dash-widget-icon bg-1">
-              <i class="fas fa-dollar-sign"></i>
-            </span>
-            <div class="dash-count">
-              <div class="dash-title">This week Sales</div>
-              <div class="dash-counts">
-                <p>{{$thisWeeksDailySalesRevenue}}</p>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-    <div class="custom-col-xl-2 col-sm-6 col-12">
-      <div class="card">
-        <div class="card-body p-2">
-          <div class="d-flex justify-content-end" style="">
-            <a href="{{route('dailySales.index', ['from' => now()->startOfMonth()->format('Y-m-d'), 'to' => now()->endOfMonth()->format('Y-m-d')])}}" class="bg-1 text-center rounded" style="width:20px; height:20px;"><i class="fe fe-filter"></i></a>
-          </div>
-          <div class="dash-widget-header">
-            <span class="dash-widget-icon bg-1">
-              <i class="fas fa-dollar-sign"></i>
-            </span>
-            <div class="dash-count">
-              <div class="dash-title">This Month Sales</div>
-              <div class="dash-counts">
-                <p>{{$thisMonthsDailySalesRevenue}}</p>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-    <div class="custom-col-xl-2 col-sm-6 col-12">
-      <div class="card">
-        <div class="card-body p-2">
-          <div class="d-flex justify-content-end" style="">
-            <a href="{{route('dailySales.index', ['from' => now()->startOfYear()->format('Y-m-d'), 'to' => now()->endOfYear()->format('Y-m-d')])}}" class="bg-1 text-center rounded" style="width:20px; height:20px;"><i class="fe fe-filter"></i></a>
-          </div>
-          <div class="dash-widget-header">
-            <span class="dash-widget-icon bg-1">
-              <i class="fas fa-dollar-sign"></i>
-            </span>
-            <div class="dash-count">
-              <div class="dash-title">This Year Sales</div>
-              <div class="dash-counts">
-                <p>{{$thisYearsDailySalesRevenue}}</p>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </div>
-  </div>
  
   <!-- Page Header -->
   <div class="page-header">
-    <div class="content-page-header">
-      <h5>Sales</h5>
-     
-      <div class="list-btn">
-        <ul class="filter-list">
-          <li class="d-none">
-            <a class="btn btn-filters w-auto popup-toggle" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Filter">
-              <span class="me-2">
-                <img src="assets/img/icons/filter-icon.svg" alt="filter">
-              </span>Filter </a>
-          </li>
-          <li class="d-none">
-            <div class="dropdown dropdown-action" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Download">
-              <a href="#" class="btn-filters" data-bs-toggle="dropdown" aria-expanded="false">
-                <span>
-                  <i class="fe fe-download"></i>
-                </span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-end">
-                <ul class="d-block">
-                  <li>
-                    <a class="d-flex align-items-center download-item" href="javascript:void(0);" download="">
-                      <i class="far fa-file-pdf me-2"></i>PDF </a>
-                  </li>
-                  <li>
-                    <a class="d-flex align-items-center download-item" href="javascript:void(0);" download="">
-                      <i class="far fa-file-text me-2"></i>CVS </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </li>
-          <li class="d-none">
-            <a class="btn-filters" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-placement="bottom" aria-label="Print" data-bs-original-title="Print">
-              <span>
-                <i class="fe fe-printer"></i>
-              </span>
-            </a>
-          </li>
-          <li class="d-none">
-            <a class="btn btn-import" href="javascript:void(0);">
-              <span>
-                <i class="fe fe-check-square me-2"></i>Import Customer </span>
-            </a>
-          </li>
-          <li>
-            <a class="btn btn-primary" href="{{route('sales.create')}}">
-              <i class="fa fa-plus-circle me-2" aria-hidden="true"></i>Add Sales </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+   
     <form action="{{route('sales.index')}}" method="get">
-      <div class="row">
+      <div class="row d-none">
         <div class="col-12 col-md-2">
             <label for="">From</label>
             <input type="date" name="from" class="form-control" value="{{isset($request) ? $request->from : ''}}">
@@ -292,7 +34,7 @@
           <label for="">To</label><br>
           <input type="date" name="to" class="form-control" value="{{isset($request) ? $request->to : ''}}">
         </div>
-        <div class="col-12 col-md-2">
+        <div class="col-12 col-md-2 ">
           <label for="">Sales Type</label><br>
           <select name="sales_type" id="" class="form-select">
             <option value="">--Select--</option>
@@ -368,10 +110,7 @@
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Price</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Qty</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Total</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Discount</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Bill</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Paid Amount</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Due Amount</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Sales By</th>
 
                     <th class="no-sort sorting_disabled" rowspan="1" colspan="1" aria-label="Actions">Actions</th>
@@ -403,10 +142,7 @@
                     <td> ${{$service->price}} </td>
                     <td> {{$service->qty}} </td>
                     <td> ${{$service->total}} </td>
-                    <td> ${{$service->discount}} </td>
                     <td> ${{$service->bill}} </td>
-                    <td> ${{$service->paid_amount}} </td>
-                    <td> ${{$service->due_amount}} </td>
                     <td> {{$service->sales_by}} </td>
                     <td class="d-flex align-items-center">
                       <div class="dropdown dropdown-action">
@@ -416,7 +152,7 @@
                         <div class="dropdown-menu dropdown-menu-end">
                           <ul>
                             <li>
-                              <a class="dropdown-item" href="{{route('payments', ['id' => $service->id, 'payment_for' => '2'])}}">
+                              <a class="dropdown-item" href="">
                                 <i class="far fa-edit me-2"></i>Get Payments </a>
                             </li>
                             <li>
