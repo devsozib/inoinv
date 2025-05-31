@@ -90,40 +90,42 @@
 
 
 
-
-										<!-- Laravel Blade -->
-									<div id="item_container">
 										<div class="group-item" data-itemnumber="1" id="form-group-item1">
 											<div class="row align-items-end">
 												<div class="col-md-4">
 													<label>Product Name</label>
-													<select onchange="selectProduct(1)" id="product1" name="product[]" class="form-control js-example-basic-single" required>
+													<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" required>
 														<option value=""></option>
 														@foreach ($products as $product)
 															<option value="{{ $product->id }}" data-price="{{ $product->price }}">
-																{{ $product->name }}
+																{{ $product->name }}({{$product->model}})
 															</option>
 														@endforeach
 													</select>
 												</div>
 												<div class="col-md-2">
 													<label>Unit Price</label>
-													<input type="number" name="unit_price" id="unit_price1" style="height: 30px;" class="form-control unit-price" readonly>
+													<input type="number" id="unit_price1" style="height: 30px;" class="form-control unit-price" readonly>
 												</div>
 												<div class="col-md-2">
 													<label>Qty</label>
-													<input onchange="calculateTotal()" type="number" name="qty[]" id="qty1" style="height: 30px;" class="form-control qty" min="0">
+													<input onchange="calculateTotal()" type="number" id="qty1" style="height: 30px;" class="form-control qty" min="0">
 												</div>
 												<div class="col-md-2">
 													<label>Total</label>
-													<input type="number" name="total" id="total1" style="height: 30px;" class="form-control total" readonly>
+													<input type="number" id="total1" style="height: 30px;" class="form-control total" readonly>
 												</div>
 												<div class="col-md-2 text-end btn-holder">
-													<button onclick="removeItem(1)" type="button" class="btn btn-danger remove-item me-1 d-none">×</button>
 													<button onclick="addItem()"  type="button" class=" btn btn-success addItemBtn">+</button>
 												</div>
 											</div>
 										</div>
+
+										<hr>
+
+										
+									<div id="item_container">
+										
 									</div>
 
 									<br>
@@ -178,44 +180,80 @@
 
   });
 
-      function addItem(){
-      var html = `
-			<div class="group-item" data-itemnumber="${itemNumber}" id="form-group-item${itemNumber}">
-				<div class="row align-items-end">
-					<div class="col-md-4">
-						<label>Product Name</label>
-						<select onchange="selectProduct(${itemNumber})"  id="product${itemNumber}" name="product[]" class="form-control product-select js-example-basic-single" required>
-							<option value=""></option>
-							@foreach ($products as $product)
-								<option value="{{ $product->id }}" data-price="{{ $product->price }}">
-									{{ $product->name }}
-								</option>
-							@endforeach
-						</select>
-					</div>
-					<div class="col-md-2">
-						<label>Unit Price</label>
-						<input type="number" name="unit_price" id="unit_price${itemNumber}" style="height: 30px;" class="form-control unit-price" readonly>
-					</div>
-					<div class="col-md-2">
-						<label>Qty</label>
-						<input onchange="calculateTotal()" type="number" name="qty[]" id="qty${itemNumber}" style="height: 30px;" class="form-control qty" min="0">
-					</div>
-					<div class="col-md-2">
-						<label>Total</label>
-						<input type="number" name="total" id="total${itemNumber}" style="height: 30px;" class="form-control total" readonly>
-					</div>
-					<div class="col-md-2 text-end btn-holder">
-						<button onclick="removeItem(${itemNumber})" type="button" class="btn btn-danger remove-item me-1 ">×</button>
-						<button onclick="addItem()" type="button" class=" btn btn-success addItemBtn">+</button>
+    function addItem(){
+
+		var product = document.getElementById('product1').value;
+		var qty = document.getElementById('qty1').value;
+		if(product==""){
+			document.getElementById('product1').setCustomValidity("Time is required");
+        	document.getElementById('product1').reportValidity();
+			return;
+		}
+
+		if(qty.trim() === ""){
+			document.getElementById('qty1').setCustomValidity("Time is required");
+        	document.getElementById('qty1').reportValidity();
+			return;
+		}
+
+		const price = document.getElementById('product1').selectedOptions[0].dataset.price;
+
+
+		var eles = document.getElementsByClassName('item'+product);
+		if(eles.length){
+			var qEles = document.getElementsByClassName('qty'+product);
+			if(qEles.length){
+				var old_qty = qEles[0].value;
+				qEles[0].value = parseInt(old_qty) + parseInt(qty);
+			}
+
+		}else{
+
+			
+
+			var html = `
+				<div class="item${product} group-item mt-2" data-itemnumber="${itemNumber}" id="form-group-item${itemNumber}">
+					<div class="row align-items-end">
+						<div class="col-md-4">
+							<input  type="hidden" name="product[]" value="${product}">
+							<select onchange="selectProduct(${itemNumber})" style="height: 30px;"  id="product${itemNumber}" class="product${product} form-control product-select js-example-basic-single" required disabled>
+								<option value=""></option>
+								@foreach ($products as $product)`;
+
+								var select = (product == {{ $product->id }} ? 'selected' : '');
+								
+								html +=`
+									<option value="{{ $product->id }}" data-price="{{ $product->price }}" ${select}>
+										{{ $product->name }}({{$product->model}})
+									</option>
+								@endforeach
+							</select>
+						</div>
+						<div class="col-md-2">
+							<input type="number" name="unit_price" id="unit_price${itemNumber}" style="height: 30px;" class="form-control unit-price" value="${price}" readonly>
+						</div>
+						<div class="col-md-2">
+							<input onchange="calculateTotal()" type="number" name="qty[]" id="qty${itemNumber}" style="height: 30px;" class="qty${product} form-control qty" min="0" value="${qty}">
+						</div>
+						<div class="col-md-2">
+							<input type="number" name="total" id="total${itemNumber}" style="height: 30px;" class="form-control total" readonly>
+						</div>
+						<div class="col-md-2 text-end btn-holder">
+							<button onclick="removeItem(${itemNumber})" type="button" class="btn btn-danger remove-item me-1 ">×</button>
+						</div>
 					</div>
 				</div>
-			</div>
-		`;
+			`;
+			$('#item_container').append(html);
+			itemNumber++;
+		}
 
-      $('#item_container').append(html);
+		calculateTotal();
+      	
+	}
 
-      itemNumber++;
+	function removeItem(item){
+		document.getElementById('form-group-item' + item).remove();
 	}
 
   function selectProduct(item){

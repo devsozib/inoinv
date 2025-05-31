@@ -972,7 +972,7 @@
           <div id="preview" style="padding: 2px;" content="width=device-width, initial-scale=1.0">
             <div class="row">
               <div class="col-12 text-center">
-                <span class="d-block fk-print-text fk-print-text--bold text-uppercase fk-print__title text-center mb-2">Quick Phone Fix N More</span>
+                <span class="d-block fk-print-text fk-print-text--bold text-uppercase fk-print__title text-center mb-2">Inoodex</span>
                 <p class="mb-0 xsm-text fk-print-text text-center text-capitalize" style="font-size: 14px;">Invoice</p>
                 <p></p>
                 <p class="mb-0 xsm-text fk-print-text text-center text-capitalize" style="font-size: 14px;">7157 Ogontaz Ave,
@@ -993,28 +993,22 @@
                     <tr style="">
                       <td class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">
                         <span class="d-block">
-                          <span class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Name: {{$service->name}} </span>
+                          <span class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Name: {{$customer->name}} </span>
                         </span>
                       </td>
                     </tr>
                     <tr style=" ">
                       <td class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">
                         <span class="d-block">
-                          <span class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Phone: {{$service->phone}} </span>
+                          <span class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Phone: {{$customer->phone}} </span>
                         </span>
                       </td>
                     </tr>
+                   
                     <tr style="">
                       <td class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">
                         <span class="d-block">
-                          <span class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Email: {{$service->email}} </span>
-                        </span>
-                      </td>
-                    </tr>
-                    <tr style="">
-                      <td class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">
-                        <span class="d-block">
-                          <span class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Address: {{$service->address}} </span>
+                          <span class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Address: {{$customer->address}} </span>
                         </span>
                       </td>
                     </tr>
@@ -1031,17 +1025,15 @@
                       <th class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Price</th>
                       <th class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Qty</th>
                       <th class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Total</th>
-                      <th class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Paid</th>
-                      <th class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Due</th>
                     </tr>
-                    <tr>
-                      <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{$service->product_name}}</td>
-                      <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">${{$service->price}}</td>
-                      <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{$service->qty}}</td>
-                      <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">${{$service->bill}}</td>
-                      <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">${{$service->paid_amount}}</td>
-                      <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">${{$service->due_amount}}</td>
-                    </tr>
+                    @foreach ($items as $item)
+                      <tr>
+                        <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{$item->name}}({{$item->model}})</td>
+                        <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{$item->unit_price}}</td>
+                        <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{$item->qty}}</td>
+                        <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{$item->total_price}}</td>
+                      </tr>
+                    @endforeach
                   </tbody>
                 </table>
                 <!-- <hr> -->
@@ -1049,7 +1041,7 @@
                 <!-- <p class="mb-0 xsm-text fk-print-text text-capitalize text-center">bill prepared by: Ariya Stark</p> -->
                 <!-- <span>---------------------------------------------------------------------------------------------------</span> -->
                 <div class="col-12 mt-2 mb-1" style="border-bottom: 1px dashed"></div>
-                <span scope="col" class="fk-print-text fk-print-text--bold xsm-text text-capitalize" style="font-size: 14px;" id="datePlaceholder">Date: {{$service->created_at->format("m-d-Y g:i A")}}</span>
+                <span scope="col" class="fk-print-text fk-print-text--bold xsm-text text-capitalize" style="font-size: 14px;" id="datePlaceholder">Date: {{$sales->created_at->format("m-d-Y g:i A")}}</span>
                 <br>
                 <span scope="col" class="fk-print-text fk-print-text--bold xsm-text text-capitalize text-center" style="font-size: 14px;">Generate By: {{auth()->user()->name}}</span>
                 <table class="table mt-1 mb-1 text-center table-borderless">

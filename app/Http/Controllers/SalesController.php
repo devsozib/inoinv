@@ -26,7 +26,7 @@ class SalesController extends Controller
     public function index(Request $request)
     {
 
-        $services = Sale::leftjoin('users','users.id','=','sales.sales_by');
+        $services = Sale::join('customers', 'customers.id','sales.customer_id')->leftjoin('users','users.id','=','sales.sales_by');
 
         $defaultFilter = true;
         
@@ -59,7 +59,8 @@ class SalesController extends Controller
             $services = $services->whereBetween('sales.created_at', [$startOfMonth, $endOfMonth]);
         }
 
-        $services = $services->select('sales.*','users.name as sales_by')->orderBy('id','desc')->get();
+        $services = $services->select('sales.*','users.name as sales_by', 'customers.name', 'customers.phone','customers.address')
+        ->orderBy('id','desc')->get();
 
         $users = lib_salesMan();
         if($request->search_for == 'pdf'){
@@ -123,6 +124,8 @@ class SalesController extends Controller
      */
     public function store(Request $request)
     {
+
+        // return $request->all();
     
       
         $validated = $request->validate([
@@ -178,7 +181,9 @@ class SalesController extends Controller
 
             DB::commit();
 
-            return redirect()->back()->with(['success' => getNotify(1)]);
+
+
+            return redirect()->route('sales.invoice', $sale->id);
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -303,10 +308,18 @@ class SalesController extends Controller
     }
 
     public function makeInvoice(Request $request, $serviceId){
-        $service = Sale::where('id', $serviceId)->first();
-        if(!$service)abort(404);
+        $sales = Sale::where('id', $serviceId)->first();
+        if(!$sales)abort(404);
+        $customer = Customer::where('id',$sales->customer_id)->first();
+        if(!$customer)abort(404);
+        $items = SalesItem::join('products', 'products.id', 'sales_items.product_id')
+        ->where('order_id',  $sales->id)
+        ->select('sales_items.*','products.name','products.model')
+        ->get();
 
-        return view('frontend.pages.sales.invoice',compact('service'));
+
+
+        return view('frontend.pages.sales.invoice',compact('sales','items','customer'));
     }
 
     public function payments(Request $request){ 
