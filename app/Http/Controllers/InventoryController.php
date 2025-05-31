@@ -17,7 +17,7 @@ class InventoryController extends Controller
         $products = Product::whereNotIn('id', $productIdsInInventory)
                         ->latest()
                         ->get();
-        $inventories = Inventory::with('product')->get();
+        $inventories = Inventory::with('product')->latest()->get();
         return view('frontend.pages.inventory.index', compact('products','inventories'));
     }
 

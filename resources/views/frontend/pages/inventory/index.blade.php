@@ -103,7 +103,7 @@
                 @foreach($inventories as $inventory)
                 <tr>
                   <td>{{ $loop->iteration }}</td>
-                  <td>{{ $inventory->product->name }}({{ $inventory->product->model }})</td>                  
+                  <td>{{ $inventory->product->name }}({{ $inventory->product->model??'N/A' }})</td>                  
                   <td>{{ $inventory->opening_stock ?? 0 }}</td>
                   <td>{{ $inventory->current_stock ?? 0 }}</td>               
                   {{-- <td>
