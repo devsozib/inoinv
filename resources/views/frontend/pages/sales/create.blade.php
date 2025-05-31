@@ -21,7 +21,8 @@
   width: 0;
 }
 </style>
-
+<form action="{{route('sales.store')}}" method="post">
+    @csrf
 <div class="content container-fluid pt-0">
 					<div class="card mb-3">
 						<div class="card-body">
@@ -34,8 +35,7 @@
 							<!-- /Page Header -->				
 							<div class="row">
 								<div class="col-md-12">
-									<form action="{{route('sales.store')}}" method="post">
-                                        @csrf
+									
 										<div class="form-group-item mb-0 pb-0">
 											<h5 class="form-title d-none">Basic Details</h5>
 											<div class="row">
@@ -65,7 +65,7 @@
 											</div>
 										</div>
 
-									</form>
+									
 								</div>
 							</div>
 						</div>
@@ -84,48 +84,70 @@
 								<div class="col-md-12">
 									<form action="{{route('sales.store')}}" method="post">
                                         @csrf
-										<div class="form-group-item">
-											
-											<div class="row">
-												 <div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Product Name <span class="text-danger">*</span></label>
-														<!-- <input type="text"  class="form-control" placeholder="Product Name" name="product_name" value="{{ old('product_name') }}" required> -->
-														 <select name="product_name" id="" class="form-control js-example-basic-single" required>
-														 	<option value=""></option>
-															@foreach ($products as $product)
-																<option value="{{$product->id}}" {{ old('product_name') ==  $product->id ? 'selected' : ''}}>{{$product->name}}</option>
-															@endforeach
-														 </select>
-													</div>
+										
+
+
+
+
+
+
+										<!-- Laravel Blade -->
+									<div id="item_container">
+										<div class="group-item" data-itemnumber="1" id="form-group-item1">
+											<div class="row align-items-end">
+												<div class="col-md-4">
+													<label>Product Name</label>
+													<select onchange="selectProduct(1)" id="product1" name="product[]" class="form-control js-example-basic-single" required>
+														<option value=""></option>
+														@foreach ($products as $product)
+															<option value="{{ $product->id }}" data-price="{{ $product->price }}">
+																{{ $product->name }}
+															</option>
+														@endforeach
+													</select>
 												</div>
-												<div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Name <span class="text-danger">*</span></label> 
-														<input type="text" name="name" class="form-control p-2" placeholder="Enter Name" value="{{ old('name') }}" required autocomplete="off">
-													</div>
+												<div class="col-md-2">
+													<label>Unit Price</label>
+													<input type="number" name="unit_price" id="unit_price1" style="height: 30px;" class="form-control unit-price" readonly>
 												</div>
-												<div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3 " >
-														<label>Email </label>
-														<input type="email" name="email" class="form-control p-2" placeholder="Enter Email Address" value="{{ old('email') }}" autocomplete="off">
-													</div>											
+												<div class="col-md-2">
+													<label>Qty</label>
+													<input onchange="calculateTotal()" type="number" name="qty[]" id="qty1" style="height: 30px;" class="form-control qty" min="0">
 												</div>
-
-                                               
-
-                                               
-
-                                            
-                                               
-
-												
-
-
-
-
+												<div class="col-md-2">
+													<label>Total</label>
+													<input type="number" name="total" id="total1" style="height: 30px;" class="form-control total" readonly>
+												</div>
+												<div class="col-md-2 text-end btn-holder">
+													<button onclick="removeItem(1)" type="button" class="btn btn-danger remove-item me-1 d-none">×</button>
+													<button onclick="addItem()"  type="button" class=" btn btn-success addItemBtn">+</button>
+												</div>
 											</div>
 										</div>
+									</div>
+
+									<br>
+									<div class="row d-flef justify-content-end align-items-end">
+												<div class="col-md-4"></div>
+												<div class="col-md-4"></div>
+												<div class="col-md-4"></div>
+												<div class="col-md-2">
+													<label>Sub Total</label>
+													<input type="number" id="subTotal" style="height: 30px;" class="form-control total" readonly>
+												</div>
+												<div class="col-md-2 text-end btn-holder">
+													
+												</div>
+											</div>
+
+
+
+
+
+
+
+
+
 																	
 										<div class="add-customer-btns text-left">
 											<button type="submit" class="btn customer-btn-save">Submit</button>
@@ -137,96 +159,104 @@
 					</div>
 </div>
 
+</form>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
 <script>
+  var itemNumber = 2;
+
   $(document).ready(function() {
-	
     $('.js-example-basic-single').select2({
-		tags: true,
-	});
-	$('.js-example-basic-single-no-new-value').select2({
-		tags: true,
-	});
+      tags: true
+    });
+
+
   });
 
-  function getTotal(){
-    var price = document.getElementById("price").value.trim();
-    var qty = document.getElementById("qty").value.trim();
-    if(price<0){
-        document.getElementById("price").value = 0;
-        price = 0;
-    }
-    if(qty<0){
-        document.getElementById("qty").value = 0;
-        qty = 0;
-    }
-    document.getElementById("total").value = price * qty;
-	calculateDue();
+      function addItem(){
+      var html = `
+			<div class="group-item" data-itemnumber="${itemNumber}" id="form-group-item${itemNumber}">
+				<div class="row align-items-end">
+					<div class="col-md-4">
+						<label>Product Name</label>
+						<select onchange="selectProduct(${itemNumber})"  id="product${itemNumber}" name="product[]" class="form-control product-select js-example-basic-single" required>
+							<option value=""></option>
+							@foreach ($products as $product)
+								<option value="{{ $product->id }}" data-price="{{ $product->price }}">
+									{{ $product->name }}
+								</option>
+							@endforeach
+						</select>
+					</div>
+					<div class="col-md-2">
+						<label>Unit Price</label>
+						<input type="number" name="unit_price" id="unit_price${itemNumber}" style="height: 30px;" class="form-control unit-price" readonly>
+					</div>
+					<div class="col-md-2">
+						<label>Qty</label>
+						<input onchange="calculateTotal()" type="number" name="qty[]" id="qty${itemNumber}" style="height: 30px;" class="form-control qty" min="0">
+					</div>
+					<div class="col-md-2">
+						<label>Total</label>
+						<input type="number" name="total" id="total${itemNumber}" style="height: 30px;" class="form-control total" readonly>
+					</div>
+					<div class="col-md-2 text-end btn-holder">
+						<button onclick="removeItem(${itemNumber})" type="button" class="btn btn-danger remove-item me-1 ">×</button>
+						<button onclick="addItem()" type="button" class=" btn btn-success addItemBtn">+</button>
+					</div>
+				</div>
+			</div>
+		`;
+
+      $('#item_container').append(html);
+
+      itemNumber++;
+	}
+
+  function selectProduct(item){
+	
+	var selectedPrice = $('#product'+item+' option:selected').data('price');
+	document.getElementById('unit_price' + item).value = selectedPrice;
+	calculateTotal()
   }
 
-  function calculateDue(){
-	var bill = (document.getElementById("total").value.trim() * 1)??0;
-	var paid_amount = (document.getElementById("paid_amount").value.trim() * 1)??0;
-	document.getElementById("due_amount").value = Math.max(0, bill-paid_amount);
-  }
+  function calculateTotal(){
+	var eles = document.getElementsByClassName('group-item');
 
-  function makeDiscount(){
-	getTotal();
-	var total = (document.getElementById("total").value.trim() * 1)??0;
-	var discount = (document.getElementById("discount").value.trim() * 1)??0;
-	document.getElementById("total").value = Math.max(0, total-discount);
-	calculateDue();
-  }
+	var subTotal = 0;
+	for(var i=0; i<eles.length; i++){
+		var itemNumber = eles[i].dataset.itemnumber;
+		
+		var unit_price = document.getElementById('unit_price'+itemNumber).value;
+		var qty = document.getElementById('qty'+itemNumber).value;
+		var totalEle = document.getElementById('total'+itemNumber);
+		if(parseInt(qty) +  parseFloat(unit_price)){
+			var total = (parseInt(qty) * parseFloat(unit_price));
+			totalEle.value = total;
+			subTotal += total;
+		}
+		
 
+	}
+	 document.getElementById('subTotal').value = subTotal;
+	
+
+  }
 </script>
 
-<script>
-  const selectElements = document.querySelectorAll('.phoneCode');
-  selectElements.forEach(selectElement => {
-    selectElement.addEventListener('focus', function() {
-		// console.log('open');
-		const options = selectElement.options;
-		Array.from(options).forEach(option => {
-			option.text = option.dataset.showdefault;
-		});
-    });
-    selectElement.addEventListener('blur', function() {
-		// console.log('close')
-		const options = selectElement.options;
-		Array.from(options).forEach(option => {
-			option.text = option.dataset.show;
-		});
-    });
 
-	selectElement.addEventListener('change', function() {
-		// console.log('close')
-		const options = selectElement.options;
-		Array.from(options).forEach(option => {
-			option.text = option.dataset.show;
-		});
-		selectElement.blur();
-    });
 
-	selectElement.addEventListener('mousedown', function(event) {
-		// console.log('close')
-		const options = selectElement.options;
-		Array.from(options).forEach(option => {
-			option.text = option.dataset.show;
-		});
-		selectElement.blur();
-  	});
 
-	// Handling touchend event for touch devices
-    selectElement.addEventListener('touchend', function(event) {
-        // console.log('close');
-        const options = selectElement.options;
-        Array.from(options).forEach(option => {
-            option.text = option.dataset.show;
-        });
-        selectElement.blur();
-    });
-  });
-</script>
+
+
+
+
+
+
 
 @endsection
