@@ -26,6 +26,12 @@ select, input{
 label{
 	color: #000 !important;
 }
+.select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    width: 55%!important;
+}
 </style>
 <form action="{{route('sales.update', $sales->id)}}" method="post">
     @csrf
@@ -104,7 +110,7 @@ label{
 													<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" required>
 														<option value=""></option>
 														@foreach ($products as $product)
-															<option value="{{ $product->id }}" data-price="{{ $product->lastPurchasePrice }}">
+															<option value="{{ $product->id }}" data-price="{{ $product->latestPurchase->unit_price??0 }}">
 																{{ $product->name }}({{$product->model}})
 															</option>
 														@endforeach
@@ -162,7 +168,7 @@ label{
 													<select onchange="selectProduct({{$loop->index+2}})" style="height: 30px;"  id="product{{$loop->index+2}}" class="product{{$item->product_id}} form-control product-select js-example-basic-single" required disabled>
 														<option value=""></option>
 														@foreach ($products as $product)
-															<option value="{{ $product->id }}" data-price="{{ $product->lastPurchasePrice }}" {{$item->product_id == $product->id ? 'selected' : ''}}>
+															<option value="{{ $product->id }}" data-price="{{ $product->latestPurchase->unit_price??0 }}" {{$item->product_id == $product->id ? 'selected' : ''}}>
 																{{ $product->name }}({{$product->model}})
 															</option>
 														@endforeach
@@ -289,7 +295,7 @@ label{
 								var select = (product == {{ $product->id }} ? 'selected' : '');
 								
 								html +=`
-									<option value="{{ $product->id }}" data-price="{{ $product->lastPurchasePrice }}" ${select}>
+									<option value="{{ $product->id }}" data-price="{{ $product->latestPurchase->unit_price??0 }}" ${select}>
 										{{ $product->name }}({{$product->model}})
 									</option>
 								@endforeach

@@ -28,9 +28,9 @@
                             <label for="product_id" class="form-label">Product</label>
                             <select class="form-control select2" name="product_id" id="product_id" required>
                             <option value="">Select Product</option>
-                            @foreach($products as $product)
-                                <option value="{{ $product->id }}">{{ $product->name }}({{  $product->model??'N/A' }})</option>
-                            @endforeach
+                                @foreach($products as $product)
+                                    <option value="{{ $product->id }}">{{ $product->name }}({{  $product->model??'N/A' }})</option>
+                                @endforeach
                             </select>
                         </div>
 
