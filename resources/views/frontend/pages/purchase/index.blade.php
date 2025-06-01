@@ -57,7 +57,7 @@
 
                 <div class="mb-3">
                     <label for="unit_price" class="form-label">Unit Price</label>
-                    <input type="number" step="0.01" name="unit_price" class="form-control" required>
+                    <input type="number" step="0.01" name="unit_price" class="form-control" value="{{ $product->price }}" readonly>
                 </div>
 
                 <div class="mb-3">
@@ -164,7 +164,7 @@
 
                                 <div class="mb-3">
                                     <label for="edit-unit_price-{{ $purchase->id }}">Unit Price</label>
-                                    <input id="edit-unit_price-{{ $purchase->id }}" name="unit_price" value="{{ $purchase->unit_price }}" class="form-control" placeholder="Unit Price" />
+                                    <input id="edit-unit_price-{{ $purchase->id }}" name="unit_price" value="{{ $purchase->unit_price }}" class="form-control" placeholder="Unit Price" value="{{ $product->price }}" readonly />
                                 </div>
 
                                 <div class="mb-3">
