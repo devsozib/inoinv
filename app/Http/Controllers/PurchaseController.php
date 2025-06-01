@@ -98,49 +98,49 @@ class PurchaseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-  public function update(Request $request, Purchase $purchase)
-{
-    $request->validate([
-        'product_id'  => 'required|exists:products,id',
-        'quantity'    => 'required|numeric|min:1',
-        'unit_price'  => 'required|numeric|min:0',
-        'sub_price'   => 'nullable|numeric',
-        'total_price' => 'required|numeric|min:0',
-        'payment'     => 'required|numeric|min:0',
-        'due'         => 'required|numeric|min:0',
-        'vendor_id'         => 'required|exists:vendors,id',
-    ]);
+    public function update(Request $request, Purchase $purchase)
+    {
+        $request->validate([
+            'product_id'  => 'required|exists:products,id',
+            'quantity'    => 'required|numeric|min:1',
+            'unit_price'  => 'required|numeric|min:0',
+            'sub_price'   => 'nullable|numeric',
+            'total_price' => 'required|numeric|min:0',
+            'payment'     => 'required|numeric|min:0',
+            'due'         => 'required|numeric|min:0',
+            'vendor_id'         => 'required|exists:vendors,id',
+        ]);
 
-   
+    
 
-    $purchase = Purchase::findOrFail($purchase->id);
-    $inventory = Inventory::where('product_id', $purchase->product_id)->first();
-    if ($inventory) {
-        $inventory->current_stock -= $purchase->quantity;
-        $inventory->current_stock += $request->quantity;
-        $inventory->update();        
-    }else{
-        $newInventory  = new Inventory();
-        $newInventory->product_id = $request->product_id;
-        $newInventory->current_stock = $request->quantity;
-        $newInventory->opening_stock = $request->quantity;
-        $newInventory->notes = 'Opening stock entry';
-        $newInventory->save();
+        $purchase = Purchase::findOrFail($purchase->id);
+        $inventory = Inventory::where('product_id', $purchase->product_id)->first();
+        if ($inventory) {
+            $inventory->current_stock -= $purchase->quantity;
+            $inventory->current_stock += $request->quantity;
+            $inventory->update();        
+        }else{
+            $newInventory  = new Inventory();
+            $newInventory->product_id = $request->product_id;
+            $newInventory->current_stock = $request->quantity;
+            $newInventory->opening_stock = $request->quantity;
+            $newInventory->notes = 'Opening stock entry';
+            $newInventory->save();
+        }
+        $purchase->product_id  = $request->product_id;
+        $purchase->quantity    = $request->quantity;
+        $purchase->unit_price  = $request->unit_price;
+        $purchase->sub_price   = $request->sub_price ?? ($request->quantity * $request->unit_price);
+        $purchase->total_price = $request->total_price;
+        $purchase->payment     = $request->payment;
+        $purchase->due         = $request->due;
+        $purchase->vendor_id         = $request->vendor_id;    
+        $purchase->updated_by  = Auth::id();
+
+        $purchase->update();
+
+        return redirect()->back()->with('success', 'Purchase updated and inventory adjusted successfully.');
     }
-    $purchase->product_id  = $request->product_id;
-    $purchase->quantity    = $request->quantity;
-    $purchase->unit_price  = $request->unit_price;
-    $purchase->sub_price   = $request->sub_price ?? ($request->quantity * $request->unit_price);
-    $purchase->total_price = $request->total_price;
-    $purchase->payment     = $request->payment;
-    $purchase->due         = $request->due;
-    $purchase->vendor_id         = $request->vendor_id;    
-    $purchase->updated_by  = Auth::id();
-
-    $purchase->update();
-
-    return redirect()->back()->with('success', 'Purchase updated and inventory adjusted successfully.');
-}
 
 
     /**

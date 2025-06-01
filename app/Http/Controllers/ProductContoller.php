@@ -12,7 +12,7 @@ use App\Models\Admin\Brand;
 use Illuminate\Support\Str;
 use App\Models\Admin\Toping;
 use Illuminate\Http\Request;
-use App\Models\Admin\Product;
+use App\Models\Product;
 use App\Models\Admin\Category;
 use App\Models\Admin\ProductTag;
 use App\Models\Admin\OptionTitle;
@@ -34,8 +34,9 @@ class ProductContoller extends Controller
      */
     public function index(Request $request)
     {
-        $products = Product::latest()->get();
-        return view('frontend.pages.product.index', compact('products'));
+        $products = Product::with('brand')->latest()->get();
+        $brands = Brand::where('status', '1')->latest()->get();
+        return view('frontend.pages.product.index', compact('products', 'brands'));
     }
 
     /**
@@ -65,6 +66,7 @@ class ProductContoller extends Controller
             'name' => 'required',
             'model_name' => 'required',
             'status' => 'required',
+            'brand_id' => 'required',
         ];
         $validation = Validator::make($attributes, $rules);
         if ($validation->fails()) {
@@ -75,6 +77,7 @@ class ProductContoller extends Controller
         $product->name = $request->name;
         $product->model = $request->model_name;
         $product->status = $request->status;
+        $product->brand_id = $request->brand_id;
         $product->save();
     
         return redirect()->back()->with(['success' => getNotify(1)]);
@@ -121,6 +124,7 @@ class ProductContoller extends Controller
             'name' => 'required',
             'model_name' => 'required',
             'status' => 'required',
+            'brand_id' => 'required',
         ];
         $validation = Validator::make($attributes, $rules);
         if ($validation->fails()) {
@@ -134,6 +138,7 @@ class ProductContoller extends Controller
         $product->name = $request->name;
         $product->model = $request->model_name;
         $product->status = $request->status;
+        $product->brand_id = $request->brand_id;
         $product->update();
 
         return redirect()->back()->with(['success' => getNotify(2)]);

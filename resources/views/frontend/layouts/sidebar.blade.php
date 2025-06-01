@@ -62,6 +62,7 @@
 					<li class="">
 						{{-- <a href="{{ route('sales.create') }}" class="{{ Route::currentRouteName() == 'sales.create' ? 'active' : '' }}"><i class="fe fe-plus-circle"></i> <span> Add Sales</span></a>
 						<a href="{{ route('sales.index') }}" class="{{ Route::currentRouteName() == 'sales.index' ? 'active' : '' }}"><i class="fe fe-list"></i> <span>Sales List</span></a> --}}
+						<a href="{{ route('brands.index') }}" class="{{ Route::currentRouteName() == 'brand.index' ? 'active' : '' }}"><i class="fe fe-package"></i> <span> Brand List</span></a>					
 						<a href="{{ route('products.index') }}" class="{{ Route::currentRouteName() == 'products.index' ? 'active' : '' }}"><i class="fe fe-package"></i> <span> Product List</span></a>									
 					</li>
 					

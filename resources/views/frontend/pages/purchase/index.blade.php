@@ -194,9 +194,9 @@
                                             <select id="vendor" name="vendor_id" class="form-select" required>
                                                 <option value="">Select Vendor</option>
                                                 @foreach ($vendors as $vendor)
-                                                <option value="{{ $vendor->id }}" {{ $vendor->id == $purchase->vendor_id ? 'selected' : '' }}>
-                                                    {{ $vendor->name }}
-                                                </option>
+                                                    <option value="{{ $vendor->id }}" {{ $vendor->id == $purchase->vendor_id ? 'selected' : '' }}>
+                                                        {{ $vendor->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
