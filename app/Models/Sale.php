@@ -12,7 +12,8 @@ class Sale extends Model
         'order_no',
         'customer_id',
         'bill',
-        'paid_amount',
+        'discount',
+        'payble',
         'sales_by',
         'status',
     ];

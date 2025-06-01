@@ -10,6 +10,7 @@ use App\Models\SalesItem;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\Inventory;
 use App\Models\Service;
 use Twilio\Rest\Client;
 use App\Models\Customer;
@@ -136,6 +137,9 @@ class SalesController extends Controller
             'product.*' => 'required|integer|exists:products,id',
             'qty' => 'required|array',
             'qty.*' => 'required|numeric|min:1',
+            'unit_price' => 'required|array',
+            'unit_price.*' => 'required|numeric|min:1',
+            'discount' => 'required|numeric|min:0',
         ]);
 
         DB::beginTransaction();
@@ -151,7 +155,8 @@ class SalesController extends Controller
                 'order_no' => 'INV-' . strtoupper(uniqid()),
                 'customer_id' => $customer->id,
                 'bill' => 0,
-                'paid_amount' => 0,
+                'discount' => 0,
+                'payble' => 0,
                 'sales_by' => auth()->id(),
                 'status' => '1',
             ]);
@@ -160,9 +165,7 @@ class SalesController extends Controller
 
             foreach ($validated['product'] as $index => $productId) {
                 $qty = $validated['qty'][$index];
-
-                $product = Product::findOrFail($productId);
-                $unitPrice = $product->price;
+                $unitPrice = $validated['unit_price'][$index];
 
                 $total = $unitPrice * $qty;
                 $totalBill += $total;
@@ -174,10 +177,21 @@ class SalesController extends Controller
                     'qty' => $qty,
                     'total_price' => $total,
                 ]);
+
+                $inventory = Inventory::where('product_id', $productId)->first();
+                if(!$inventory) abort('404');
+                $inventory->current_stock -= $qty;
+                $inventory->update();
             }
 
+            $discount = $validated['discount'];
+            $payble = $totalBill - $discount;
 
-            $sale->update(['bill' => $totalBill]);
+            $sale->update([
+                'bill' => $totalBill,
+                'discount' => $discount,
+                'payble' => $payble,
+            ]);
 
             DB::commit();
 
@@ -187,11 +201,12 @@ class SalesController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+            // return $e->getMessage();
             return redirect()->back()->with(['error' =>  $e->getMessage()]);
            
         }
 
-        }
+    }
 
     /**
      * Display the specified resource.
@@ -206,15 +221,20 @@ class SalesController extends Controller
      */
     public function edit(string $id)
     {
-        $service = Sale::join('customers','customers.id','=','sales.customer_id')
+        $sales = Sale::join('customers','customers.id','=','sales.customer_id')
                     ->where('sales.id',$id)
                     ->select('sales.*')
                     ->first();
-        if(!$service)abort(404);
-        $products = Product::where('status','1')->where('type','2')->get();
-        $salesMans = lib_salesMan();
+        if(!$sales)abort(404);
+        $users  = User::get();
+        $products = Product::where('status','1')->get();
 
-        return view('frontend.pages.sales.edit',compact('service','products','salesMans'));
+        $customer = Customer::where('id', $sales->customer_id)->first();
+        if(!$customer)abort(404);
+
+        $items = SalesItem::where('order_id',  $sales->id) ->get();
+
+        return view('frontend.pages.sales.edit',compact('sales','products','items','customer'));
     }
 
     /**
@@ -222,76 +242,76 @@ class SalesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $service = Sale::where('id',$id)->first();
-        if(!$service)abort(404);
 
-        $attributes = $request->all();
-        $rules = [
-            'name' => 'required',
-            'email' => 'nullable|email',
-            'country_code' => 'required',
-            'phone' => 'required|numeric',
-            'address' => 'nullable',
-            'product_name' => 'required',
-            'price' => 'required|numeric',
-            'discount' => 'nullable|numeric',
-            'qty' => 'required|numeric',
-            'sales_by' => 'required|numeric',
-        ];
-        $validation = Validator::make($attributes, $rules);
-        if ($validation->fails()) {
-            return redirect()->back()->with(['error' => getNotify(4)])->withErrors($validation)->withInput();
+        // return $request->all();
+    
+      
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'phone' => 'required|string',
+            'address' => 'nullable|string',
+            'product' => 'required|array',
+            'product.*' => 'required|integer|exists:products,id',
+            'qty' => 'required|array',
+            'qty.*' => 'required|numeric|min:1',
+            'unit_price' => 'required|array',
+            'unit_price.*' => 'required|numeric|min:1',
+            'discount' => 'required|numeric|min:0',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            
+            $customer = Customer::firstOrCreate(
+                ['name' => $validated['name'], 'phone' => $validated['phone']],
+                ['address' => $validated['address'] ?? null]
+            );
+
+            $sale = Sale::where('id', $id)->first();
+            if(!$sale)abort(404);
+
+            SalesItem::where('order_id', $sale->id)->delete();
+
+            $totalBill = 0;
+
+            foreach ($validated['product'] as $index => $productId) {
+                $qty = $validated['qty'][$index];
+                $unitPrice = $validated['unit_price'][$index];
+
+                $total = $unitPrice * $qty;
+                $totalBill += $total;
+
+                SalesItem::create([
+                    'order_id' => $sale->id,
+                    'product_id' => $productId,
+                    'unit_price' => $unitPrice,
+                    'qty' => $qty,
+                    'total_price' => $total,
+                ]);
+            }
+
+            $discount = $validated['discount'];
+            $payble = $totalBill - $discount;
+
+            $sale->update([
+                'bill' => $totalBill,
+                'discount' => $discount,
+                'payble' => $payble,
+            ]);
+
+            DB::commit();
+
+
+
+            return redirect()->route('sales.invoice', $sale->id);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // return $e->getMessage();
+            return redirect()->back()->with(['error' =>  $e->getMessage()]);
+           
         }
-
-        if(!is_numeric($request->product_name)){
-            $product = new Product;
-            $product->type = '2';
-            $product->name = $request->product_name;
-            $product->save();
-        }else{
-            $product = Product::where('id', $request->product_name)->first();
-            if($product)$request->product_name =  $product->name;
-        }
-
-        $customerByPhone = Customer::where('phone', $request->phone)->first();
-        $customerByEmail = Customer::where('email', $request->email)->first();
-        if($request->email == "") $customerByEmail = null;
-        $customer =  new Customer;
-
-        if((!$customerByPhone && $customerByEmail)){
-            $customer = $customerByEmail;
-        }elseif(($customerByPhone && !$customerByEmail)){
-            $customer = $customerByPhone;
-        }elseif($customerByPhone && $customerByEmail && $customerByPhone->id == $customerByEmail->id){
-            $customer = $customerByPhone;
-        }elseif($customerByPhone && $customerByEmail && $customerByPhone->id != $customerByEmail->id){
-            return redirect()->back()->with(['error' => 'The email is added for another customer.'])->withInput();
-        }
-
-        $customer->name = $request->name;
-        if($request->email != "" )$customer->email = $request->email;
-        $customer->country_code = $request->country_code;
-        $customer->phone = $request->phone;
-        $customer->address = $request->address;
-        $customer->save();
-
-        $service->customer_id = $customer->id;
-        $service->name = $customer->name;
-        $service->country_code = $request->country_code;
-        $service->phone = $customer->phone;
-        $service->email = $customer->email;
-        $service->address = $customer->address;
-        $service->product_name = $request->product_name;
-        $service->price = $request->price??0;
-        $service->qty = $request->qty??0;
-        $service->total = max(0,$request->price * $request->qty);
-        $service->discount = $request->discount??0;
-        $service->bill = $service->total - $service->discount; // max(0,$request->price * $request->qty);
-        $service->due_amount = max(0,$service->bill-$service->paid_amount);
-        $service->sales_by = $request->sales_by;
-        $service->save();
-
-        return redirect()->back()->with(['success' => getNotify(2)]);
 
     }
 

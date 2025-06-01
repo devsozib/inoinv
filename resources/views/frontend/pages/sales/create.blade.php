@@ -20,6 +20,12 @@
   top: 50%;
   width: 0;
 }
+select, input{
+	border-color: #000 !important;
+}
+label{
+	color: #000 !important;
+}
 </style>
 <form action="{{route('sales.store')}}" method="post">
     @csrf
@@ -90,11 +96,11 @@
 
 
 
-										<div class="group-item" data-itemnumber="1" id="form-group-item1">
+										<div class="group-item" data-itemnumber="1" id="form-group-item1" style="background:#198754; color:#fff !important; padding: 10px 5px;">
 											<div class="row align-items-end">
 												<div class="col-md-4">
-													<label>Product Name</label>
-													<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" required>
+													<label style="color:#fff !important;">Product Name</label>
+													<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" required>
 														<option value=""></option>
 														@foreach ($products as $product)
 															<option value="{{ $product->id }}" data-price="{{ $product->price }}">
@@ -104,19 +110,19 @@
 													</select>
 												</div>
 												<div class="col-md-2">
-													<label>Unit Price</label>
-													<input type="number" id="unit_price1" style="height: 30px;" class="form-control unit-price" readonly>
+													<label style="color:#fff !important;">Unit Price</label>
+													<input onchange="calculateTotal()" type="number" id="unit_price1" style="height: 30px;" class="form-control unit-price" >
 												</div>
 												<div class="col-md-2">
-													<label>Qty</label>
+													<label style="color:#fff !important;">Qty</label>
 													<input onchange="calculateTotal()" type="number" id="qty1" style="height: 30px;" class="form-control qty" min="0">
 												</div>
 												<div class="col-md-2">
-													<label>Total</label>
+													<label style="color:#fff !important;">Total</label>
 													<input type="number" id="total1" style="height: 30px;" class="form-control total" readonly>
 												</div>
 												<div class="col-md-2 text-end btn-holder">
-													<button onclick="addItem()"  type="button" class=" btn btn-success addItemBtn">+</button>
+													<button onclick="addItem()"  type="button" class=" btn btn-primary addItemBtn">Add To Cart</button>
 												</div>
 											</div>
 										</div>
@@ -130,20 +136,23 @@
 
 									<br>
 									<div class="row d-flef justify-content-end align-items-end">
-												<div class="col-md-4"></div>
-												<div class="col-md-4"></div>
-												<div class="col-md-4"></div>
-												<div class="col-md-2">
-													<label>Sub Total</label>
-													<input type="number" id="subTotal" style="height: 30px;" class="form-control total" readonly>
-												</div>
-												<div class="col-md-2 text-end btn-holder">
-													
-												</div>
-											</div>
-
-
-
+										<div class="col-md-4"></div>
+										<div class="col-md-2">
+											<label>Sub Total</label>
+											<input onchange="calculateTotal()" type="number" id="subTotal" name="subTotal" style="height: 30px;" class="form-control total" readonly>
+										</div>
+										<div class="col-md-2">
+											<label>Discount</label>
+											<input onchange="calculateTotal()" type="number" id="discount" name="discount" style="height: 30px;" class="form-control total" >
+										</div>
+										<div class="col-md-2">
+											<label>Grand Total</label>
+											<input type="number" id="grandTotal" name="grandTotal" style="height: 30px;" class="form-control total" readonly>
+										</div>
+										<div class="col-md-2 text-end btn-holder">
+											
+										</div>
+									</div>
 
 
 
@@ -196,7 +205,12 @@
 			return;
 		}
 
-		const price = document.getElementById('product1').selectedOptions[0].dataset.price;
+		const price = document.getElementById('unit_price1').value;
+		if(price.trim() === ""){
+			document.getElementById('unit_price1').setCustomValidity("Time is required");
+        	document.getElementById('unit_price1').reportValidity();
+			return;
+		}
 
 
 		var eles = document.getElementsByClassName('item'+product);
@@ -230,7 +244,7 @@
 							</select>
 						</div>
 						<div class="col-md-2">
-							<input type="number" name="unit_price" id="unit_price${itemNumber}" style="height: 30px;" class="form-control unit-price" value="${price}" readonly>
+							<input onchange="calculateTotal()" type="number" name="unit_price[]" id="unit_price${itemNumber}" style="height: 30px;" class="form-control unit-price" value="${price}" >
 						</div>
 						<div class="col-md-2">
 							<input onchange="calculateTotal()" type="number" name="qty[]" id="qty${itemNumber}" style="height: 30px;" class="qty${product} form-control qty" min="0" value="${qty}">
@@ -254,6 +268,7 @@
 
 	function removeItem(item){
 		document.getElementById('form-group-item' + item).remove();
+		calculateTotal();
 	}
 
   function selectProduct(item){
@@ -273,15 +288,20 @@
 		var unit_price = document.getElementById('unit_price'+itemNumber).value;
 		var qty = document.getElementById('qty'+itemNumber).value;
 		var totalEle = document.getElementById('total'+itemNumber);
-		if(parseInt(qty) +  parseFloat(unit_price)){
+		
+		if(parseInt(qty) >= 0 &&  parseFloat(unit_price) >= 0){
 			var total = (parseInt(qty) * parseFloat(unit_price));
 			totalEle.value = total;
-			subTotal += total;
+			if(i>0)subTotal += total;
 		}
 		
 
 	}
+	var discount = document.getElementById('discount').value;
+	discount = (parseFloat(discount) >= 0 ? parseFloat(discount) : 0);
+
 	 document.getElementById('subTotal').value = subTotal;
+	 document.getElementById('grandTotal').value = subTotal - discount;
 	
 
   }

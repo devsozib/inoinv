@@ -1034,6 +1034,18 @@
                         <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{$item->total_price}}</td>
                       </tr>
                     @endforeach
+                    <tr>
+                      <td colspan="3"  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Sub Total</td>
+                      <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{ $sales->bill}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="3"  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Discount</td>
+                      <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{ $sales->discount}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="3"  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Grand Total</td>
+                      <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{ $sales->payble}}</td>
+                    </tr>
                   </tbody>
                 </table>
                 <!-- <hr> -->
