@@ -110,7 +110,7 @@ label{
 													</select>
 												</div>
 												<div class="col-md-2">
-													<label style="color:#fff !important;">Unit Price</label>
+													<label style="color:#fff !important;">Last Unit Price</label>
 													<input onchange="calculateTotal()" type="number" id="unit_price1" style="height: 30px;" class="form-control unit-price" >
 												</div>
 												<div class="col-md-2">
