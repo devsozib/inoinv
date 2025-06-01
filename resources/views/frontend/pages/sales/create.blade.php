@@ -98,7 +98,7 @@ label{
 
 										<div class="group-item" data-itemnumber="1" id="form-group-item1" style="background:#198754; color:#fff !important; padding: 10px 5px;">
 											<div class="row align-items-end">
-												<div class="col-md-4">
+												<div class="col-md-3">
 													<label style="color:#fff !important;">Product Name</label>
 													<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" required>
 														<option value=""></option>
@@ -110,7 +110,11 @@ label{
 													</select>
 												</div>
 												<div class="col-md-2">
-													<label style="color:#fff !important;">Last Unit Price</label>
+													<label style="color:#fff !important;"> PUrchase Price</label>
+													<input type="number" id="purchase_price1" style="height: 30px;" class="form-control" readonly>
+												</div>
+												<div class="col-md-2">
+													<label style="color:#fff !important;"> Unit Price</label>
 													<input onchange="calculateTotal()" type="number" id="unit_price1" style="height: 30px;" class="form-control unit-price" >
 												</div>
 												<div class="col-md-2">
@@ -121,18 +125,36 @@ label{
 													<label style="color:#fff !important;">Total</label>
 													<input type="number" id="total1" style="height: 30px;" class="form-control total" readonly>
 												</div>
-												<div class="col-md-2 text-end btn-holder">
-													<button onclick="addItem()"  type="button" class=" btn btn-primary addItemBtn">Add To Cart</button>
+												<div class="col-md-1 text-end btn-holder">
+													<button onclick="addItem()"  type="button" class=" btn btn-primary addItemBtn">Add</button>
 												</div>
 											</div>
 										</div>
 
 										<hr>
 
-										
+									<div class=""  style="color:#000 !important;">
+										<div class="row align-items-end">
+											<div class="col-md-4">
+												<label style="color:#000 !important;">Product Name</label>
+											</div>
+											<div class="col-md-2">
+												<label style="color:#000 !important;"> Unit Price</label>
+											</div>
+											<div class="col-md-2">
+												<label style="color:#000 !important;">Qty</label>
+											</div>
+											<div class="col-md-2">
+												<label style="color:#000 !important;">Total</label>
+											</div>
+											<div class="col-md-1 text-end btn-holder">
+											</div>
+										</div>
+									</div>
 									<div id="item_container">
 										
 									</div>
+									<hr>
 
 									<br>
 									<div class="row d-flef justify-content-end align-items-end">
@@ -274,7 +296,8 @@ label{
   function selectProduct(item){
 	
 	var selectedPrice = $('#product'+item+' option:selected').data('price');
-	document.getElementById('unit_price' + item).value = selectedPrice;
+	if(document.getElementById('purchase_price' + item))
+		document.getElementById('purchase_price' + item).value = selectedPrice;
 	calculateTotal()
   }
 
