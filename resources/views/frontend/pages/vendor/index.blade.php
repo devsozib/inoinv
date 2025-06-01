@@ -120,7 +120,7 @@
                       <div class="dropdown-menu dropdown-menu-end">
                         <ul>
                           <li>
-                            <a class="dropdown-item" href="{{route('customers.edit', $product->id)}}" >
+                            <a class="dropdown-item" href="{{route('vendors.edit', $product->id)}}" >
                               <i class="far fa-edit me-2"></i>Edit
                             </a>
                           </li>

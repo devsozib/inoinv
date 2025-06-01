@@ -36,8 +36,12 @@
         <div id="add-payment-modal" class="modal fade" tabindex="-1" style="display: none;" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="add-payment-modal">Add Product</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                     <div class="modal-body">
-                        <div class="text-center mt-2 mb-4">
+                        {{-- <div class="text-center mt-2 mb-4">
                             <div class="auth-logo">
                                 <a href="{{ route('index') }}" class="logo logo-dark">
                                     <span class="logo-lg">
@@ -45,7 +49,7 @@
                                     </span>
                                 </a>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <form class="px-3" method="post" action="{{route('products.store')}}">
                             @csrf
@@ -143,8 +147,12 @@
             <div id="edit-product-modal{{ $product->id }}" class="modal fade" tabindex="-1" aria-hidden="true">
               <div class="modal-dialog">
                 <div class="modal-content">
+                  <div class="modal-header">
+                        <h5 class="modal-title" id="edit-product-modal{{ $product->id }}">Edit Product</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
                   <div class="modal-body">
-                    <div class="text-center mt-2 mb-4">
+                    {{-- <div class="text-center mt-2 mb-4">
                       <div class="auth-logo">
                         <a href="{{ route('index') }}" class="logo logo-dark">
                           <span class="logo-lg">
@@ -152,7 +160,7 @@
                           </span>
                         </a>
                       </div>
-                    </div>
+                    </div> --}}
                     <form class="px-3" method="POST" action="{{ route('products.update', $product->id) }}">
                     @csrf
                     @method('PUT')

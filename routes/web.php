@@ -51,10 +51,11 @@ Route::middleware(['auth'])->group(function () {
         }); 
     }); 
         
-    //Product Management
+    //Purchase  Management
     Route::group(['middleware' => ['permission:Purchase Management']], function () {
         Route::prefix('purchase')->middleware(['auth'])->group(function () {
             Route::resource('purchase', PurchaseController::class);
+            Route::get('latest-price/{id}', [PurchaseController::class, 'getLatestPrice'])->name('purchase.latest_price');
         }); 
     });
 

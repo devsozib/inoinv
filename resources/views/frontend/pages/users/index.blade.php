@@ -57,10 +57,21 @@
                                     <td>{{ $item->email }}</td>
                                     <td>{{ $item->phone }}</td>
                                     <td>{{ $item->roleName??'N/A' }}</td>
-                                    <td class="{{ $item->status=='1'?'text-danger':'' }}">{{ $item->status=='1'?'Active':'Inactive' }}</td>
-                                      <td><a href="{{ route('users.edit',$item->id) }}"><button type="button" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fe fe-edit" style="color: #fff"></i></button></a>| <button type="button" data-bs-toggle="modal" data-bs-target="#myModal{{ $item->id }}" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fe fe-trash-2"></i></button>
-                                      
+                                    <td class="{{ $item->status == '1' ? 'text-success' : 'text-danger' }}">
+                                        {{ $item->status == '1' ? 'Active' : 'Inactive' }}
                                     </td>
+                                    <td class="text-center">
+                                        <a href="{{ route('users.edit', $item->id) }}" class="btn btn-sm btn-primary me-1 waves-effect waves-light">
+                                            <i class="fe fe-edit text-white"></i>
+                                        </a>
+                                        <button type="button"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#myModal{{ $item->id }}"
+                                                class="btn btn-sm btn-danger waves-effect waves-light">
+                                            <i class="fe fe-trash-2 text-white"></i>
+                                        </button>
+                                    </td>
+
                                     <!-- Default Modals -->
                                     <div id="myModal{{ $item->id }}" class="modal fade" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                                         <div class="modal-dialog">
