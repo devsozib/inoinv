@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->decimal('total_price', 10, 2);
             $table->decimal('payment', 10, 2)->nullable();
             $table->decimal('due', 10, 2)->nullable();
+            $table->foreignId('vendor_id')->constrained()->onDelete('cascade');
             $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
             $table->timestamps();

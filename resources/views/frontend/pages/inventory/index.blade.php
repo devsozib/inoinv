@@ -37,8 +37,12 @@
         <div id="add-product-modal" class="modal fade" tabindex="-1" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
+               <div class="modal-header">
+                    <h5 class="modal-title" id="add-purchase-modal">Add Opening Stock</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
               <div class="modal-body">
-                <div class="text-center mt-2 mb-4">
+                {{-- <div class="text-center mt-2 mb-4">
                   <div class="auth-logo">
                     <a href="{{ route('index') }}" class="logo logo-dark">
                       <span class="logo-lg">
@@ -46,7 +50,7 @@
                       </span>
                     </a>
                   </div>
-                </div>
+                </div> --}}
                 <form method="post" action="{{ route('inventory.store') }}" class="px-3">
                   @csrf
 

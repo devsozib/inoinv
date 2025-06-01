@@ -37,15 +37,19 @@
                                 <tr>
                                     <td>{{ $loop->index+1 }}</td>                                    
                                     <td>{{ $item->name }}</td>                     
-                                      <td>
-                                        <button type="button" class="btn btn-sm btn-primary waves-effect waves-light">
-                                          <a href="{{ route('permission.edit',$item->id) }}"><i class="fe fe-edit" style="color: #fff"></i></a>
-                                        </button>| 
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#myModal{{ $item->id }}" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fe fe-trash-2"></i></button>
+                                     <td class="text-center">
+                                        <a href="{{ route('permission.edit', $item->id) }}" class="btn btn-sm btn-primary me-1 waves-effect waves-light">
+                                            <i class="fe fe-edit text-white"></i>
+                                        </a>
                                         
-                                        
-                                        
+                                        <button type="button"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#myModal{{ $item->id }}"
+                                                class="btn btn-sm btn-danger waves-effect waves-light">
+                                            <i class="fe fe-trash-2 text-white"></i>
+                                        </button>
                                     </td>
+
                                     <!-- Default Modals -->
 
 

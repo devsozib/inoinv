@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vendor;
 use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Inventory;
@@ -16,8 +17,9 @@ class PurchaseController extends Controller
     public function index()
     {  
         $purchases  = Purchase::latest()->get();
-        $products = Product::latest()->get();
-        return view('frontend.pages.purchase.index', compact('purchases','products'));
+        $products = Product::with('latestPurchase')->latest()->get();
+        $vendors = Vendor::latest()->get();
+        return view('frontend.pages.purchase.index', compact('purchases','products','vendors'));
     }
 
     /**
@@ -41,6 +43,7 @@ class PurchaseController extends Controller
             'total_price' => 'required|numeric|min:0',
             'payment'     => 'required|numeric|min:0',
             'due'         => 'required|numeric|min:0',
+            'vendor_id'   => 'required|exists:vendors,id',
         ]);
 
         // Create purchase
@@ -52,6 +55,7 @@ class PurchaseController extends Controller
             'total_price' => $request->total_price,
             'payment'     => $request->payment,
             'due'         => $request->due,
+            'vendor_id'         => $request->vendor_id,
             'created_by'  => Auth::id(),
         ]);
 
@@ -62,13 +66,12 @@ class PurchaseController extends Controller
             $inventory->current_stock += $request->quantity;
             $inventory->save();
         } else {
-            // If inventory doesn't exist for this product, create it
-            Inventory::create([
-                'product_id' => $request->product_id,
-                'current_stock'        => $request->quantity,
-                'opening_stock'        => $request->quantity,
-                'status'     => 1, // default to active, adjust as needed
-            ]);
+            $newInventory  = new Inventory();
+            $newInventory->product_id = $request->product_id;
+            $newInventory->current_stock = $request->quantity;
+            $newInventory->opening_stock = $request->quantity;
+            $newInventory->notes = 'Opening stock entry';
+            $newInventory->save();
         }
 
         return redirect()->back()->with('success', 'Purchase created and inventory updated successfully.');
@@ -105,6 +108,7 @@ class PurchaseController extends Controller
         'total_price' => 'required|numeric|min:0',
         'payment'     => 'required|numeric|min:0',
         'due'         => 'required|numeric|min:0',
+        'vendor_id'         => 'required|exists:vendors,id',
     ]);
 
    
@@ -130,6 +134,7 @@ class PurchaseController extends Controller
     $purchase->total_price = $request->total_price;
     $purchase->payment     = $request->payment;
     $purchase->due         = $request->due;
+    $purchase->vendor_id         = $request->vendor_id;    
     $purchase->updated_by  = Auth::id();
 
     $purchase->update();
@@ -146,4 +151,18 @@ class PurchaseController extends Controller
         $purchase->delete();
         return redirect()->back()->with('success', 'Purchase deleted successfully.');
     }
+
+    public function getLatestPrice($id)
+    {
+        $product = Product::with('latestPurchase')->find($id);
+
+        if (!$product) {
+            return response()->json(['price' => 0]);
+        }
+
+        $price = $product->latestPurchase ? $product->latestPurchase->unit_price : 0;
+
+        return response()->json(['price' => $price]);
+    }
+
 }

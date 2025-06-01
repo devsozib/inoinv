@@ -1,3 +1,4 @@
+    
     <script type="text/javascript" src="{{ asset('frontend') }}/js/frontend6d8b.js?ver=5.38.8" id="cr-frontend-js-js"></script>
     <script type="text/javascript" src="{{ asset('frontend') }}/js/colcade6d8b.js?ver=5.38.8" id="cr-colcade-js"></script>
     <script type="text/javascript" src="{{ asset('frontend') }}/js/wd_shortcoded01b.js?ver=160119.0505" id="wd_shortcode-js"></script>

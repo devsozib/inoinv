@@ -7,7 +7,7 @@
 <div class="row justify-content-center">
     <div class="col">
         <div class="card p-4 shadow">
-            <h2 class=" mb-3">Add Vendor</h2>
+            <h2 class=" mb-3">Edit Vendor</h2>
             <form method="POST" action="{{ route('vendors.update', $customer->id) }}">
                 @csrf
                 @method('PUT')
