@@ -104,7 +104,7 @@ label{
 													<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" required>
 														<option value=""></option>
 														@foreach ($products as $product)
-															<option value="{{ $product->id }}" data-price="{{ $product->price }}">
+															<option value="{{ $product->id }}" data-price="{{ $product->lastPurchasePrice }}">
 																{{ $product->name }}({{$product->model}})
 															</option>
 														@endforeach
@@ -127,7 +127,7 @@ label{
 													<input type="number" id="total1" style="height: 30px;" class="form-control total" readonly>
 												</div>
 												<div class="col-md-1 text-end btn-holder">
-													<button onclick="addItem()"  type="button" class=" btn btn-primary addItemBtn">Add</button>
+													<button onclick="addItem()"  type="button" class=" btn btn-sm btn-primary addItemBtn">Add</button>
 												</div>
 											</div>
 										</div>
@@ -162,7 +162,7 @@ label{
 													<select onchange="selectProduct({{$loop->index+2}})" style="height: 30px;"  id="product{{$loop->index+2}}" class="product{{$item->product_id}} form-control product-select js-example-basic-single" required disabled>
 														<option value=""></option>
 														@foreach ($products as $product)
-															<option value="{{ $product->id }}" data-price="{{ $product->price }}" {{$item->product_id == $product->id ? 'selected' : ''}}>
+															<option value="{{ $product->id }}" data-price="{{ $product->lastPurchasePrice }}" {{$item->product_id == $product->id ? 'selected' : ''}}>
 																{{ $product->name }}({{$product->model}})
 															</option>
 														@endforeach
@@ -289,7 +289,7 @@ label{
 								var select = (product == {{ $product->id }} ? 'selected' : '');
 								
 								html +=`
-									<option value="{{ $product->id }}" data-price="{{ $product->price }}" ${select}>
+									<option value="{{ $product->id }}" data-price="{{ $product->lastPurchasePrice }}" ${select}>
 										{{ $product->name }}({{$product->model}})
 									</option>
 								@endforeach

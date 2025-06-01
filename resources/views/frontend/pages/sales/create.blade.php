@@ -103,7 +103,7 @@ label{
 													<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" required>
 														<option value=""></option>
 														@foreach ($products as $product)
-															<option value="{{ $product->id }}" data-price="{{ $product->price }}">
+															<option value="{{ $product->id }}" data-price="{{ $product->lastPurchasePrice }}">
 																{{ $product->name }}({{$product->model}})
 															</option>
 														@endforeach
@@ -259,7 +259,7 @@ label{
 								var select = (product == {{ $product->id }} ? 'selected' : '');
 								
 								html +=`
-									<option value="{{ $product->id }}" data-price="{{ $product->price }}" ${select}>
+									<option value="{{ $product->id }}" data-price="{{ $product->lastPurchasePrice }}" ${select}>
 										{{ $product->name }}({{$product->model}})
 									</option>
 								@endforeach
