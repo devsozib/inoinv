@@ -157,7 +157,7 @@ label{
 									<hr>
 
 									<br>
-									<div class="row d-flef justify-content-end align-items-end">
+									<div id="summerySection" class="row d-flef justify-content-end align-items-end d-none">
 										<div class="col-md-4"></div>
 										<div class="col-md-2">
 											<label>Sub Total</label>
@@ -221,16 +221,16 @@ label{
 			return;
 		}
 
-		if(qty.trim() === ""){
-			document.getElementById('qty1').setCustomValidity("Time is required");
-        	document.getElementById('qty1').reportValidity();
-			return;
-		}
-
 		const price = document.getElementById('unit_price1').value;
 		if(price.trim() === ""){
 			document.getElementById('unit_price1').setCustomValidity("Time is required");
         	document.getElementById('unit_price1').reportValidity();
+			return;
+		}
+
+		if(qty.trim() === ""){
+			document.getElementById('qty1').setCustomValidity("Time is required");
+        	document.getElementById('qty1').reportValidity();
 			return;
 		}
 
@@ -281,6 +281,7 @@ label{
 				</div>
 			`;
 			$('#item_container').append(html);
+			
 			itemNumber++;
 		}
 
@@ -298,7 +299,7 @@ label{
 	var selectedPrice = $('#product'+item+' option:selected').data('price');
 	if(document.getElementById('purchase_price' + item))
 		document.getElementById('purchase_price' + item).value = selectedPrice;
-	calculateTotal()
+	calculateTotal();
   }
 
   function calculateTotal(){
@@ -322,9 +323,19 @@ label{
 	}
 	var discount = document.getElementById('discount').value;
 	discount = (parseFloat(discount) >= 0 ? parseFloat(discount) : 0);
+	if(discount > subTotal) discount = subTotal;
+	document.getElementById('discount').value = discount;
 
-	 document.getElementById('subTotal').value = subTotal;
-	 document.getElementById('grandTotal').value = subTotal - discount;
+	document.getElementById('subTotal').value = subTotal;
+	document.getElementById('grandTotal').value = subTotal - discount;
+
+	var content = document.getElementById("item_container").innerHTML;
+	content = content.trim();
+	if(content != ""){
+		document.getElementById("summerySection").classList.remove('d-none');
+	}else{
+		document.getElementById("summerySection").classList.add('d-none');
+	}
 	
 
   }

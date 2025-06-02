@@ -187,7 +187,7 @@ label{
 									<hr>
 
 									<br>
-									<div class="row d-flef justify-content-end align-items-end">
+									<div id="summerySection" class="row d-flef justify-content-end align-items-end">
 										<div class="col-md-4"></div>
 										<div class="col-md-2">
 											<label>Sub Total</label>
@@ -331,33 +331,41 @@ label{
 	calculateTotal()
 }
 
-  function calculateTotal(){
-	var eles = document.getElementsByClassName('group-item');
+  	function calculateTotal(){
+		var eles = document.getElementsByClassName('group-item');
 
-	var subTotal = 0;
-	for(var i=0; i<eles.length; i++){
-		var itemNumber = eles[i].dataset.itemnumber;
-		
-		var unit_price = document.getElementById('unit_price'+itemNumber).value;
-		var qty = document.getElementById('qty'+itemNumber).value;
-		var totalEle = document.getElementById('total'+itemNumber);
-		
-		if(parseInt(qty) >= 0 &&  parseFloat(unit_price) >= 0){
-			var total = (parseInt(qty) * parseFloat(unit_price));
-			totalEle.value = total;
-			if(i>0)subTotal += total;
+		var subTotal = 0;
+		for(var i=0; i<eles.length; i++){
+			var itemNumber = eles[i].dataset.itemnumber;
+			
+			var unit_price = document.getElementById('unit_price'+itemNumber).value;
+			var qty = document.getElementById('qty'+itemNumber).value;
+			var totalEle = document.getElementById('total'+itemNumber);
+			
+			if(parseInt(qty) >= 0 &&  parseFloat(unit_price) >= 0){
+				var total = (parseInt(qty) * parseFloat(unit_price));
+				totalEle.value = total;
+				if(i>0)subTotal += total;
+			}
+			
+
 		}
-		
+		var discount = document.getElementById('discount').value;
+		discount = (parseFloat(discount) >= 0 ? parseFloat(discount) : 0);
+		if(discount > subTotal) discount = subTotal;
+		document.getElementById('discount').value = discount;
 
-	}
-	var discount = document.getElementById('discount').value;
-	discount = (parseFloat(discount) >= 0 ? parseFloat(discount) : 0);
+		document.getElementById('subTotal').value = subTotal;
+		document.getElementById('grandTotal').value = subTotal - discount;
 
-	 document.getElementById('subTotal').value = subTotal;
-	 document.getElementById('grandTotal').value = subTotal - discount;
-	
-
-  }
+		var content = document.getElementById("item_container").innerHTML;
+		content = content.trim();
+		if(content != ""){
+			document.getElementById("summerySection").classList.remove('d-none');
+		}else{
+			document.getElementById("summerySection").classList.add('d-none');
+		}
+  	}
 </script>
 
 

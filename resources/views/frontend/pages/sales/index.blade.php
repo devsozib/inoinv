@@ -143,10 +143,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                           <ul>
-                            <li>
-                              <a class="dropdown-item" href="">
-                                <i class="far fa-edit me-2"></i>Get Payments </a>
-                            </li>
+                            
                             <li>
                               <a class="dropdown-item" target="_blank" href="{{route('sales.invoice', $service->id)}}">
                                 <i class="far fa-edit me-2"></i>Invoice </a>
