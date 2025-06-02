@@ -117,7 +117,7 @@ label{
 													</select>
 												</div>
 												<div class="col-md-2">
-													<label style="color:#fff !important;"> PUrchase Price</label>
+													<label style="color:#fff !important;"> Purchase Price</label>
 													<input type="number" id="purchase_price1" style="height: 30px;" class="form-control" readonly>
 												</div>
 												<div class="col-md-2">
