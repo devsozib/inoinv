@@ -54,6 +54,15 @@
                         <form class="px-3" method="post" action="{{route('products.store')}}">
                             @csrf
                              <!-- Input for Product Name -->
+                             <div class="mb-3">
+                                <label for="name" class="form-label">Brand Name <span class="text-danger">*</span></label>
+                                <select class="form-control select2" name="brand_id" id="brand_id" required>
+                                <option value="">Select Brand</option>
+                                  @foreach($brands as $brand)
+                                      <option {{ $brand->id == old('brand_id') ? 'selected' : '' }} value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                  @endforeach
+                                </select>
+                            </div>
                             <div class="mb-3">
                               <label for="name" class="form-label">Product Name <span class="text-danger">*</span></label>
                               <input type="text" name="name" id="name" class="form-control" placeholder="Enter product name" value="{{ old('name') }}" required>
@@ -93,6 +102,7 @@
               <thead class="thead-light">
                 <tr>
                   <th>#</th>
+                  <th>Brand Name</th>
                   <th>Product Name</th>
                   <th>Model</th>
                   <th>Status</th>
@@ -103,6 +113,7 @@
                 @foreach ($products as $product)
                 <tr>
                   <td>{{ $loop->index + 1 }}</td>
+                  <td>{{ $product->brand->name ?? 'N/A' }}</td>
                   <td>{{ $product->name }}</td>
                   <td>{{ $product->model??'N/A' }}</td>
                   <td>
@@ -164,7 +175,15 @@
                     <form class="px-3" method="POST" action="{{ route('products.update', $product->id) }}">
                     @csrf
                     @method('PUT')
-
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Brand Name <span class="text-danger">*</span></label>
+                        <select class="form-control select2" name="brand_id" id="brand_id" required>
+                        <option value="">Select Brand</option>
+                          @foreach($brands as $brand)
+                              <option {{ $brand->id == $product->brand_id ? 'selected' : '' }} value="{{ $brand->id }}">{{ $brand->name }}</option>
+                          @endforeach
+                        </select>
+                    </div>
                     <!-- Product Name -->
                     <div class="mb-3">
                       <label for="name{{ $product->id }}" class="form-label">Product Name <span class="text-danger">*</span></label>

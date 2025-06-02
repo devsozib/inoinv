@@ -8,16 +8,17 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\StaffController;
 use App\Http\Controllers\ProductContoller;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\VendorController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\PaytrailController;
 use App\Http\Controllers\PurchaseController;
@@ -33,8 +34,9 @@ Route::middleware(['auth'])->group(function () {
    //Product Management
     Route::group(['middleware' => ['permission:Product Management']], function () {
         Route::prefix('product')->middleware(['auth'])->group(function () {
-            Route::resource('products', ProductContoller::class);
-        }); 
+            Route::resource('products', ProductContoller::class);           
+        });
+        Route::resource('brands', BrandController::class); 
     }); 
 
     //Customer Management

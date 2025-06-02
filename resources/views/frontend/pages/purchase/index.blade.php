@@ -28,9 +28,9 @@
                             <label for="product_id" class="form-label">Product</label>
                             <select class="form-control select2" name="product_id" id="product_id" required>
                             <option value="">Select Product</option>
-                            @foreach($products as $product)
-                                <option value="{{ $product->id }}">{{ $product->name }}({{  $product->model??'N/A' }})</option>
-                            @endforeach
+                                @foreach($products as $product)
+                                    <option value="{{ $product->id }}">{{ $product->name }}({{  $product->model??'N/A' }})</option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -194,9 +194,9 @@
                                             <select id="vendor" name="vendor_id" class="form-select" required>
                                                 <option value="">Select Vendor</option>
                                                 @foreach ($vendors as $vendor)
-                                                <option value="{{ $vendor->id }}" {{ $vendor->id == $purchase->vendor_id ? 'selected' : '' }}>
-                                                    {{ $vendor->name }}
-                                                </option>
+                                                    <option value="{{ $vendor->id }}" {{ $vendor->id == $purchase->vendor_id ? 'selected' : '' }}>
+                                                        {{ $vendor->name }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
