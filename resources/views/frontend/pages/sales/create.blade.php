@@ -109,7 +109,7 @@ label{
 													<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" required>
 														<option value=""></option>
 														@foreach ($products as $product)
-															<option value="{{ $product->id }}" data-price="{{ $product->latestPurchase->unit_price??0 }}">
+															<option value="{{ $product->id }}" data-name="{{ $product->name }}({{$product->model}})" data-price="{{ $product->latestPurchase->unit_price??0 }}">
 																{{ $product->name }}({{$product->model}})
 															</option>
 														@endforeach
@@ -227,6 +227,8 @@ label{
 			return;
 		}
 
+		let selectedName = document.getElementById('product1').options[document.getElementById('product1').selectedIndex].text;
+
 		const price = document.getElementById('unit_price1').value;
 		if(price.trim() === ""){
 			document.getElementById('unit_price1').setCustomValidity("Time is required");
@@ -258,7 +260,7 @@ label{
 					<div class="row align-items-end">
 						<div class="col-md-4">
 							<input  type="hidden" name="product[]" value="${product}">
-							<select onchange="selectProduct(${itemNumber})" style="height: 30px;"  id="product${itemNumber}" class="product${product} form-control product-select js-example-basic-single" required disabled>
+							<select onchange="selectProduct(${itemNumber})" style="height: 30px;"  id="product${itemNumber}" class="product${product} form-control product-select js-example-basic-single d-none" required disabled>
 								<option value=""></option>
 								@foreach ($products as $product)`;
 
@@ -270,6 +272,7 @@ label{
 									</option>
 								@endforeach
 							</select>
+							<p>${selectedName}</p>
 						</div>
 						<div class="col-md-2">
 							<input onchange="calculateTotal()" type="number" name="unit_price[]" id="unit_price${itemNumber}" style="height: 30px;" class="form-control unit-price" value="${price}" >

@@ -139,8 +139,10 @@ class SalesController extends Controller
             'qty.*' => 'required|numeric|min:1',
             'unit_price' => 'required|array',
             'unit_price.*' => 'required|numeric|min:1',
-            'discount' => 'required|numeric|min:0',
+            'discount' => 'required|numeric',
         ]);
+        
+        
 
         DB::beginTransaction();
 
@@ -160,8 +162,12 @@ class SalesController extends Controller
                 'sales_by' => auth()->id(),
                 'status' => '1',
             ]);
+            
+            
 
             $totalBill = 0;
+
+            $warranties = Product::wherein('id', $validated['product'])->pluct('warranty','id');
 
             foreach ($validated['product'] as $index => $productId) {
                 $qty = $validated['qty'][$index];
@@ -176,13 +182,17 @@ class SalesController extends Controller
                     'unit_price' => $unitPrice,
                     'qty' => $qty,
                     'total_price' => $total,
+                    'warranty' => isset($warranties[$productId]) ? $warranties[$productId] : 0,
                 ]);
 
                 $inventory = Inventory::where('product_id', $productId)->first();
-                if(!$inventory) abort('404');
-                $inventory->current_stock -= $qty;
-                $inventory->update();
+                if($inventory){
+                    $inventory->current_stock -= $qty;
+                    $inventory->update();
+                }
+                
             }
+            
 
             $discount = $validated['discount'];
             $payble = $totalBill - $discount;
@@ -195,13 +205,11 @@ class SalesController extends Controller
 
             DB::commit();
 
-
-
             return redirect()->route('sales.invoice', $sale->id);
 
         } catch (\Exception $e) {
+            // return $e;
             DB::rollBack();
-            // return $e->getMessage();
             return redirect()->back()->with(['error' =>  $e->getMessage()]);
            
         }
@@ -269,11 +277,22 @@ class SalesController extends Controller
             );
 
             $sale = Sale::where('id', $id)->first();
-            if(!$sale)abort(404);
+            if(!$sale)return 'Sales not found.';
+
+
+            $oldItems = SalesItem::where('order_id', $sale->id)->get();
+            foreach ($oldItems as $item) {
+                $inventory = Inventory::where('product_id', $item->product_id)->first();
+                if ($inventory) {
+                    $inventory->current_stock += $item->qty;
+                    $inventory->update();
+                }
+            }
 
             SalesItem::where('order_id', $sale->id)->delete();
 
             $totalBill = 0;
+            $warranties = Product::wherein('id', $validated['product'])->pluct('warranty','id');
 
             foreach ($validated['product'] as $index => $productId) {
                 $qty = $validated['qty'][$index];
@@ -288,7 +307,14 @@ class SalesController extends Controller
                     'unit_price' => $unitPrice,
                     'qty' => $qty,
                     'total_price' => $total,
+                    'warranty' => isset($warranties[$productId]) ? $warranties[$productId] : 0,
                 ]);
+
+                $inventory = Inventory::where('product_id', $productId)->first();
+                if ($inventory) {
+                    $inventory->current_stock -= $qty;
+                    $inventory->update();
+                }
             }
 
             $discount = $validated['discount'];

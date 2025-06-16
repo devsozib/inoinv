@@ -66,6 +66,7 @@ class ProductContoller extends Controller
             'name' => 'required',
             'model_name' => 'required',
             'status' => 'required',
+            'warranty' => 'required',
             'brand_id' => 'required',
         ];
         $validation = Validator::make($attributes, $rules);
@@ -78,6 +79,7 @@ class ProductContoller extends Controller
         $product->model = $request->model_name;
         $product->status = $request->status;
         $product->brand_id = $request->brand_id;
+        $product->warranty = $request->warranty;
         $product->save();
     
         return redirect()->back()->with(['success' => getNotify(1)]);
@@ -125,6 +127,7 @@ class ProductContoller extends Controller
             'model_name' => 'required',
             'status' => 'required',
             'brand_id' => 'required',
+            'warranty' => 'required',
         ];
         $validation = Validator::make($attributes, $rules);
         if ($validation->fails()) {
@@ -139,6 +142,7 @@ class ProductContoller extends Controller
         $product->model = $request->model_name;
         $product->status = $request->status;
         $product->brand_id = $request->brand_id;
+        $product->warranty = $request->warranty;
         $product->update();
 
         return redirect()->back()->with(['success' => getNotify(2)]);
