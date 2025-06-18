@@ -102,6 +102,9 @@ Route::middleware(['auth'])->group(function () {
      Route::group(['middleware' => ['permission:Report Management']], function () {
         Route::get('purchase-report', [PurchaseController::class, 'reportIndex'])->name('purchase.report');
         Route::get('purchase/report', [PurchaseController::class, 'report'])->name('purchase.report.get');
+
+        Route::get('sales-report', [SalesController::class, 'reportIndex'])->name('sales.report');
+        Route::get('sales/report', [SalesController::class, 'report'])->name('sales.report.get');
     });
 
     Route::resource('dailySales', DailySaleController::class);
