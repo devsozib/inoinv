@@ -112,6 +112,9 @@
 					<li class="menu-title "><span>Report Management</span></li>
 					<li class="">
 						<a href="{{ route('purchase.report') }}" class="{{ Route::currentRouteName() == 'purchase.report' ? 'active' : '' }}"><i class="fe fe-package"></i> <span> Purchase Report</span></a>									
+					</li>
+					<li class="">
+						<a href="{{ route('sales.report') }}" class="{{ Route::currentRouteName() == 'sales.report' ? 'active' : '' }}"><i class="fe fe-package"></i> <span> Sales Report</span></a>									
 					</li>					
 				@endcan
 {{-- 			

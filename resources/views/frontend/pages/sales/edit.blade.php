@@ -101,7 +101,15 @@ label{
 
 
 
-
+										<style>
+											@media (min-width: 768px) {
+												.col-md-2 {
+													width: 13% !important;
+													padding-left: 5px;
+													padding-right: 5px;
+												}
+											}
+										</style>
 
 										<div class="group-item" data-itemnumber="1" id="form-group-item1" style="background:#198754; color:#fff !important; padding: 10px 5px;">
 											<div class="row align-items-end">
@@ -110,11 +118,15 @@ label{
 													<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" required>
 														<option value=""></option>
 														@foreach ($products as $product)
-															<option value="{{ $product->id }}" data-price="{{ $product->latestPurchase->unit_price??0 }}">
+															<option value="{{ $product->id }}" data-price="{{ $product->latestPurchase->unit_price??0 }}"  data-warranty="{{ $product->warranty??0 }}">
 																{{ $product->name }}({{$product->model}})
 															</option>
 														@endforeach
 													</select>
+												</div>
+												<div class="col-md-2">
+													<label style="color:#fff !important;"> Warranty</label>
+													<input type="number" id="warranty1" style="height: 30px;" class="form-control" readonly>
 												</div>
 												<div class="col-md-2">
 													<label style="color:#fff !important;"> Purchase Price</label>
@@ -343,8 +355,11 @@ label{
  function selectProduct(item){
 	
 	var selectedPrice = $('#product'+item+' option:selected').data('price');
+	var selectedWarranty = $('#product'+item+' option:selected').data('warranty');
 	if(document.getElementById('purchase_price' + item))
 		document.getElementById('purchase_price' + item).value = selectedPrice;
+	if(document.getElementById('warranty' + item))
+		document.getElementById('warranty' + item).value = selectedWarranty;
 	calculateTotal()
 }
 

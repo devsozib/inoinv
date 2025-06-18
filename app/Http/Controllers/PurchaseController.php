@@ -213,7 +213,7 @@ public function reportIndex(Request $request)
 }
 
 
-   public function report(Request $request)
+    public function report(Request $request)
     {
          $request->all(); // For debugging purposes, you can remove this later
         $query = Purchase::query();
