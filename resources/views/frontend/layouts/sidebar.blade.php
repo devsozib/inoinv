@@ -107,6 +107,13 @@
 						<a href="{{ route('inventory.index') }}" class="{{ Route::currentRouteName() == 'inventory.index' ? 'active' : '' }}"><i class="fe fe-package"></i> <span> Inventory List</span></a>									
 					</li>					
 				@endcan
+				
+				@can('Report Management')
+					<li class="menu-title "><span>Report Management</span></li>
+					<li class="">
+						<a href="{{ route('purchase.report') }}" class="{{ Route::currentRouteName() == 'purchase.report' ? 'active' : '' }}"><i class="fe fe-package"></i> <span> Purchase Report</span></a>									
+					</li>					
+				@endcan
 {{-- 			
 				<li class="menu-title"><span>Daily Sales</span></li>
 				<li>

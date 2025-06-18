@@ -8,6 +8,7 @@ use App\Models\Purchase;
 use App\Models\Inventory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class PurchaseController extends Controller
 {
@@ -163,6 +164,87 @@ class PurchaseController extends Controller
         $price = $product->latestPurchase ? $product->latestPurchase->unit_price : 0;
 
         return response()->json(['price' => $price]);
+    }
+
+
+
+
+public function reportIndex(Request $request)
+{
+    $query = Purchase::query();
+
+    // Check if any filters are applied
+    $hasFilters = $request->filled('vendor_id') || $request->filled('product_id') || $request->filled('from_date') || $request->filled('to_date');
+
+    // Default to current month if no filters are applied
+    if (!$hasFilters) {
+        $query->whereBetween('created_at', [
+            Carbon::now()->startOfMonth(),
+            Carbon::now()->endOfMonth()
+        ]);
+    } else {
+        if ($request->filled('vendor_id')) {
+            $query->where('vendor_id', $request->vendor_id);
+        }
+
+        if ($request->filled('product_id')) {
+            $query->where('product_id', $request->product_id);
+        }
+
+        if ($request->filled('from_date')) {
+            $query->whereDate('created_at', '>=', $request->from_date);
+        }
+
+        if ($request->filled('to_date')) {
+            $query->whereDate('created_at', '<=', $request->to_date);
+        }
+    }
+
+    $purchases = $query
+            ->selectRaw('product_id, SUM(quantity) as total_qty, SUM(total_price) as total_amount')
+            ->groupBy('product_id')
+            ->with('product') // Eager load product details
+            ->get(); // You can add pagination if needed
+
+    $products = Product::with('brand')->latest()->get();
+    $vendors = Vendor::latest()->get();
+
+    return view('frontend.pages.report.purchase.index', compact('purchases', 'products', 'vendors'));
+}
+
+
+   public function report(Request $request)
+    {
+         $request->all(); // For debugging purposes, you can remove this later
+        $query = Purchase::query();
+        
+        // Apply filters
+        if ($request->filled('vendor_id')) {
+            $query->where('vendor_id', $request->vendor_id);
+        }
+
+        if ($request->filled('item_name')) {
+            $query->where('product_id', $request->item_name);
+        }
+
+        if ($request->filled('from')) {
+            $query->whereDate('created_at', '>=', $request->from);
+        }
+
+        if ($request->filled('to')) {
+            $query->whereDate('created_at', '<=', $request->to);
+        }
+        // Group by product to get item-wise purchase data
+        $purchases = $query
+            ->selectRaw('product_id, SUM(quantity) as total_qty, SUM(total_price) as total_amount')
+            ->groupBy('product_id')
+            ->with('product') // Eager load product details
+            ->get();
+        
+        $products = Product::latest()->get();
+        $vendors = Vendor::latest()->get();
+
+        return view('frontend.pages.report.purchase.index', compact('purchases', 'products', 'vendors', 'request'));
     }
 
 }
