@@ -45,20 +45,6 @@
                 </div>
             </div>
 
-            <div class="col-sm-3 col-md-3">
-                <div class="input-block mb-3">
-                    <label>Customer</label>
-                    <select name="customer_id" class="form-control">
-                    <option value="">-- Select Customer --</option>
-                    @foreach ($customers as $customer)
-                        <option value="{{ $customer->id }}" {{ request('customer') == $customer->id ? 'selected' : '' }}>
-                        {{ $customer->name }}
-                        </option>
-                    @endforeach
-                    </select>
-                </div>
-            </div>
-
         <div class="col-sm-3 col-md-3">
           <div class="input-block mb-3">
             <label>From Date</label>
@@ -89,17 +75,19 @@
                     <tr>
                     <th>#</th>
                     <th>Product Name</th>
-                    <th>Total Quantity</th>
-                    <th>Total Amount</th>
+                    <th>Qty</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($purchases as $index => $purchase)
+                    @forelse($salesReport as $index => $purchase)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $purchase->product_name?? 'Unknown Product' }}</td>
-                        <td>{{ $purchase->total_qty }}</td>
-                        <td>{{ number_format($purchase->total_amount, 2) }}</td>
+                        <td>{{ $purchase->product_name ?? 'N/A' }}</td>
+                        <td>{{ $purchase->unit_price }}</td>
+                        <td>{{ $purchase->qty }}</td>
+                        <td>{{ $purchase->total_price }}</td>
                     </tr>
                     @empty
                     <tr>

@@ -403,90 +403,54 @@ class SalesController extends Controller
         return view('frontend.pages.sales.payments',compact('payments','request'));
     }
 
-public function reportIndex(Request $request)
-{
-     $request->all(); // For debugging purposes, you can remove this later
-    $query = DB::table('sales_items')
-        ->join('sales', 'sales.id', '=', 'sales_items.order_id')
-        ->join('products', 'products.id', '=', 'sales_items.product_id'); // join here
-
-    $hasFilters = $request->filled('customer_id') || $request->filled('item_name') || $request->filled('from_date') || $request->filled('to_date');
-
-    if (!$hasFilters) {
-        $query->whereBetween('sales.created_at', [
-            Carbon::now()->startOfMonth(),
-            Carbon::now()->endOfMonth()
-        ]);
-    } else {
-        if ($request->filled('customer_id')) {
-            $query->where('sales.customer_id', $request->customer_id);
-        }
-
-        if ($request->filled('item_name')) {
-            $query->where('sales_items.product_id', $request->item_name);
-        }
-
-        if ($request->filled('from_date')) {
-            $query->whereDate('sales.created_at', '>=', $request->from_date);
-        }
-
-        if ($request->filled('to_date')) {
-            $query->whereDate('sales.created_at', '<=', $request->to_date);
-        }
-    }
-
-    $purchases = $query
-        ->select(
-            'sales_items.product_id',
-            'products.name as product_name', // include product name
-            DB::raw('SUM(sales_items.qty) as total_qty'),
-            DB::raw('SUM(sales_items.total_price) as total_amount')
-        )
-        ->groupBy('sales_items.product_id', 'products.name') // group by product name as well
-        ->get();
-             $purchases;
-    $customers = Customer::latest()->get();
-    $products = Product::with('brand')->latest()->get();
-
-    return view('frontend.pages.report.sales.index', compact('purchases', 'products', 'customers', 'request'));
-}
-
-
-
-
     public function report(Request $request)
     {
-        $request->all(); // For debugging purposes, you can remove this later
-        $query = Purchase::query();
-        
-        // Apply filters
-        if ($request->filled('customer_id')) {
-            $query->where('customer_id', $request->customer_id);
-        }
+        $salesQuery = DB::table('sales_items')
+            ->join('sales', 'sales.id', '=', 'sales_items.order_id')
+            ->join('products', 'products.id', '=', 'sales_items.product_id')
+            ->select(
+                'products.name as product_name',
+                'sales.created_at as sale_date',
+                'sales_items.qty',
+                'sales_items.unit_price',
+                'sales_items.total_price',
+            );
+
+        $hasFilters = false;
 
         if ($request->filled('item_name')) {
-            $query->where('product_id', $request->item_name);
+            $salesQuery->where('sales_items.product_id', $request->item_name);
+            $hasFilters = true;
         }
 
         if ($request->filled('from')) {
-            $query->whereDate('created_at', '>=', $request->from);
+            $salesQuery->whereDate('sales.created_at', '>=', $request->from);
+            $hasFilters = true;
         }
 
         if ($request->filled('to')) {
-            $query->whereDate('created_at', '<=', $request->to);
+            $salesQuery->whereDate('sales.created_at', '<=', $request->to);
+            $hasFilters = true;
         }
-        // Group by product to get item-wise purchase data
-        $purchases = $query
-            ->selectRaw('product_id, SUM(quantity) as total_qty, SUM(total_price) as total_amount')
-            ->groupBy('product_id')
-            ->with('product') // Eager load product details
-            ->get();
-        
-        $products = Product::latest()->get();
-        $vendors = Vendor::latest()->get();
 
-        return view('frontend.pages.report.sales.index', compact('purchases', 'products', 'vendors', 'request'));
+         if (!$hasFilters) {
+            $salesQuery->whereBetween('sales.created_at', [
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->endOfMonth()
+            ]);
+        } 
+
+        $salesReport = $salesQuery->orderBy('sales.created_at', 'desc')->get();
+
+        $products = DB::table('products')->select('id', 'name')->get();
+
+        return view('frontend.pages.report.sales.index', [
+            'salesReport' => $salesReport,
+            'products' => $products,
+            'request' => $request
+        ]);
     }
+
 }
 
 
