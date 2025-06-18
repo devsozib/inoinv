@@ -73,6 +73,10 @@
                               <input type="text" name="model_name" id="model_name" class="form-control" placeholder="Enter product model name" value="{{ old('model_name') }}" required>
                             </div>
                             <div class="mb-3">
+                              <label for="warranty" class="form-label">Warranty <span class="text-danger">*</span></label>
+                              <input type="text" name="warranty" id="warranty" class="form-control" placeholder="Enter product Warranty" value="{{ old('warranty') }}" required>
+                            </div>
+                            <div class="mb-3">
                               <label for="status" class="form-label">Status</label>
                               <select class="form-select mb-3" name="status" required>
                                   <option selected="" value="1">Actve</option>
@@ -105,6 +109,7 @@
                   <th>Brand Name</th>
                   <th>Product Name</th>
                   <th>Model</th>
+                  <th>Warranty</th>
                   <th>Status</th>
                   <th class="no-sort">Actions</th>
                 </tr>
@@ -116,6 +121,7 @@
                   <td>{{ $product->brand->name ?? 'N/A' }}</td>
                   <td>{{ $product->name }}</td>
                   <td>{{ $product->model??'N/A' }}</td>
+                  <td>{{ $product->warranty??'N/A' }}</td>
                   <td>
                     @if($product->status == 1)
                       <span class="badge bg-success">Active</span>
@@ -196,6 +202,11 @@
                       <label for="model_name{{ $product->id }}" class="form-label">Product Model Name <span class="text-danger">*</span></label>
                       <input type="text" name="model_name" id="model_name{{ $product->id }}" class="form-control"
                             placeholder="Enter product model name" value="{{ old('model_name', $product->model ?? '') }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                      <label for="warranty{{ $product->id }}" class="form-label">Warranty <span class="text-danger">*</span></label>
+                      <input type="text" name="warranty" id="warranty{{ $product->id }}" class="form-control" placeholder="Enter product Warranty" value="{{ old('model_name', $product->warranty ?? '') }}" required>
                     </div>
 
                     <!-- Status -->

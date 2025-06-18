@@ -165,7 +165,7 @@ label{
 											<div class="row align-items-end">
 												<div class="col-md-4">
 													<input  type="hidden" name="product[]" value="{{$item->product_id}}">
-													<select onchange="selectProduct({{$loop->index+2}})" style="height: 30px;"  id="product{{$loop->index+2}}" class="product{{$item->product_id}} form-control product-select js-example-basic-single" required disabled>
+													<select onchange="selectProduct({{$loop->index+2}})" style="height: 30px;"  id="product{{$loop->index+2}}" class="product{{$item->product_id}} form-control  d-none" required disabled>
 														<option value=""></option>
 														@foreach ($products as $product)
 															<option value="{{ $product->id }}" data-price="{{ $product->latestPurchase->unit_price??0 }}" {{$item->product_id == $product->id ? 'selected' : ''}}>
@@ -173,6 +173,13 @@ label{
 															</option>
 														@endforeach
 													</select>
+
+													@foreach ($products as $product)
+
+														@if($item->product_id == $product->id)
+														<p>{{ $product->name }}({{$product->model}})</p>
+														@endif
+													@endforeach
 												</div>
 												<div class="col-md-2">
 													<input onchange="calculateTotal()" type="number" name="unit_price[]" id="unit_price{{$loop->index+2}}" style="height: 30px;" class="form-control unit-price" value="{{$item->unit_price}}" >
@@ -257,6 +264,9 @@ label{
 			return;
 		}
 
+		let selectedName = document.getElementById('product1').options[document.getElementById('product1').selectedIndex].text;
+
+
 		if(qty.trim() === ""){
 			document.getElementById('qty1').setCustomValidity("Time is required");
         	document.getElementById('qty1').reportValidity();
@@ -288,7 +298,7 @@ label{
 					<div class="row align-items-end">
 						<div class="col-md-4">
 							<input  type="hidden" name="product[]" value="${product}">
-							<select onchange="selectProduct(${itemNumber})" style="height: 30px;"  id="product${itemNumber}" class="product${product} form-control product-select js-example-basic-single" required disabled>
+							<select onchange="selectProduct(${itemNumber})" style="height: 30px;"  id="product${itemNumber}" class="product${product} form-control product-select js-example-basic-single d-none" required disabled>
 								<option value=""></option>
 								@foreach ($products as $product)`;
 
@@ -300,6 +310,7 @@ label{
 									</option>
 								@endforeach
 							</select>
+							<p>${selectedName}</p>
 						</div>
 						<div class="col-md-2">
 							<input onchange="calculateTotal()" type="number" name="unit_price[]" id="unit_price${itemNumber}" style="height: 30px;" class="form-control unit-price" value="${price}" >

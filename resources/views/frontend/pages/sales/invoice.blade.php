@@ -1021,7 +1021,8 @@
                       <th scope="col" class="fk-print-text fk-print-text--bold xxsm-text text-capitalize" style="font-size: 14px;" colspan="6">Sales Info:</th>
                     </tr>
                     <tr>
-                      <th class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Product</th>
+                      <th class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Product </th>
+                      <th class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Warranty <span style="font-size: 10px;">(Days)</span></th>
                       <th class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Price</th>
                       <th class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Qty</th>
                       <th class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">Total</th>
@@ -1029,6 +1030,7 @@
                     @foreach ($items as $item)
                       <tr>
                         <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{$item->name}}({{$item->model}})</td>
+                        <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{$item->warranty}}</td>
                         <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{$item->unit_price}}</td>
                         <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{$item->qty}}</td>
                         <td  class="fk-print-text xxsm-text text-capitalize" style="font-size: 14px;">{{$item->total_price}}</td>
