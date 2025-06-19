@@ -45,8 +45,19 @@
 													</div>  
 												</div>  
 												
-												
-												
+												<div class="col-lg-4 col-md-6 col-sm-12">  
+													<div class="input-block mb-3">  
+														<label>Expense Category <span class="text-danger">*</span></label>  
+														<select name="expense_category_id" class="form-select" required>  
+															<option value="">--Select--</option>  
+															@foreach ($categories as $category)  
+																<option value="{{ $category->id }}" {{ old('expense_category_id') == $category->id ? 'selected' : '' }}>
+																	{{ $category->name }}
+																</option>  
+															@endforeach  
+														</select>  
+													</div>  
+												</div>
 												<div class="col-lg-4 col-md-6 col-sm-12">  
 													<div class="input-block mb-3">  
 														<label>Amount <span class="text-danger">*</span></label>  
@@ -66,29 +77,14 @@
 													</div>  
 												</div>  
 												
+											
 												<div class="col-lg-4 col-md-6 col-sm-12">  
 													<div class="input-block mb-3">  
-														<label>Assign person of work <span class="text-danger">*</span></label>  
-														<select name="assign_person" class="form-select" required>  
-															<option value="">--Select--</option>  
-															@foreach ($users as $user)  
-																<option value="{{$user->id}}" {{ old('assign_person') == $user->id ? 'selected' : '' }}>{{$user->name}}</option>  
-															@endforeach  
-														</select>  
+														<label>Remarks </label>  
+														<textarea name="remarks" class="form-control" placeholder="Enter Remarks" required>{{ old('remarks') }}</textarea>
 													</div>  
 												</div> 
-												<div class="col-lg-4 col-md-6 col-sm-12">  
-													<div class="input-block mb-3">  
-														<label>Purpose of Expense <span class="text-danger">*</span></label>  
-														<textarea name="purpose_of_expense" class="form-control" placeholder="Enter Purpose" required>{{ old('purpose_of_expense') }}</textarea>
-													</div>  
-												</div> 
-												<div class="col-lg-4 col-md-6 col-sm-12">  
-													<div class="input-block mb-3">  
-														<label>Paying To*</label>  
-														<input type="text" step="0.01" name="to_payment" class="form-control" placeholder="Enter recipient" value="{{ old('to_payment') }}" required autocomplete="off">  
-													</div>  
-												</div>  
+											 
 											</div>  
 										</div>
 										

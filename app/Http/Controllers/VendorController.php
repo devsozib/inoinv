@@ -17,7 +17,7 @@ class VendorController extends Controller
      */
     public function index()
     {
-         $customers = Vendor::latest()->get();
+        $customers = Vendor::latest()->get();
         return view('frontend.pages.vendor.index', compact('customers'));
     }
 
