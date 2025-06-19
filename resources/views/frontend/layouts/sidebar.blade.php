@@ -101,13 +101,21 @@
 					</li>					
 				@endcan
 
+		
+
 				@can('Inventory Management')
 					<li class="menu-title "><span>Inventory Management</span></li>
 					<li class="">
 						<a href="{{ route('inventory.index') }}" class="{{ Route::currentRouteName() == 'inventory.index' ? 'active' : '' }}"><i class="fe fe-package"></i> <span> Inventory List</span></a>									
 					</li>					
 				@endcan
-				
+				@can('Expense Management')
+					<li class="menu-title"><span>Expense Management</span></li>
+					<li>
+						<a href="{{ route('expense-categories.index') }}" class="{{ Route::currentRouteName() == 'expense-categories.index' ? 'active' : '' }}"><i class="fe fe-plus-circle"></i> <span>Expense Category</span></a>
+						<a href="{{ route('dailyExpenses.index') }}" class="{{ Route::currentRouteName() == 'dailyExpenses.index' ? 'active' : '' }}"><i class="fe fe-list"></i> <span>Expense List</span></a>
+					</li>
+				@endcan
 				@can('Report Management')
 					<li class="menu-title "><span>Report Management</span></li>
 					<li class="">
