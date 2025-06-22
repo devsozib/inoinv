@@ -167,7 +167,7 @@ class SalesController extends Controller
 
             $totalBill = 0;
 
-            $warranties = Product::wherein('id', $validated['product'])->pluct('warranty','id');
+            $warranties = Product::wherein('id', $validated['product'])->pluck('warranty','id');
 
             foreach ($validated['product'] as $index => $productId) {
                 $qty = $validated['qty'][$index];
@@ -292,7 +292,7 @@ class SalesController extends Controller
             SalesItem::where('order_id', $sale->id)->delete();
 
             $totalBill = 0;
-            $warranties = Product::wherein('id', $validated['product'])->pluct('warranty','id');
+            $warranties = Product::wherein('id', $validated['product'])->pluck('warranty','id');
 
             foreach ($validated['product'] as $index => $productId) {
                 $qty = $validated['qty'][$index];

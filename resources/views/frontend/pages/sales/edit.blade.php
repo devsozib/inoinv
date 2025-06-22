@@ -115,7 +115,7 @@ label{
 											<div class="row align-items-end">
 												<div class="col-md-3">
 													<label style="color:#fff !important;">Product Name</label>
-													<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" required>
+													<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" >
 														<option value=""></option>
 														@foreach ($products as $product)
 															<option value="{{ $product->id }}" data-price="{{ $product->latestPurchase->unit_price??0 }}"  data-warranty="{{ $product->warranty??0 }}">
