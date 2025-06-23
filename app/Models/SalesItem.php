@@ -14,5 +14,6 @@ class SalesItem extends Model
         'unit_price',
         'qty',
         'total_price',
+        'warranty',
     ];
 }
