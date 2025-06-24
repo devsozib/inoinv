@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Sale;
 use App\Models\Service;
+use App\Models\Purchase;
 use App\Models\DailySale;
 use App\Models\Admin\News;
 use App\Models\Admin\Size;
@@ -42,6 +43,51 @@ class FrontendController extends Controller
         $thisMonthsSalesRevenue = Sale::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->where('status','1')->sum('payble');
         $thisYearsSalesRevenue = Sale::whereBetween('created_at', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('status','1')->sum('payble');
 
+        $todaysPurchaseRevenue = Purchase::whereDate('created_at', Carbon::today())
+         
+            ->sum('total_price');
+
+        $thisWeeksPurchaseRevenue = Purchase::whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
+          
+            ->sum('total_price');
+
+        $thisMonthsPurchaseRevenue = Purchase::whereBetween('created_at', [
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->endOfMonth()
+            ])
+         
+            ->sum('total_price');
+
+        $thisYearsPurchaseRevenue = Purchase::whereBetween('created_at', [
+                Carbon::now()->startOfYear(),
+                Carbon::now()->endOfYear()
+            ])
+          
+            ->sum('total_price');
+
+        $todaysExpense = DailyExpense::whereDate('created_at', Carbon::today())
+            ->sum('amount');
+
+        $thisWeeksExpense = DailyExpense::whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ])
+            ->sum('amount');
+
+        $thisMonthsExpense = DailyExpense::whereBetween('created_at', [
+                Carbon::now()->startOfMonth(),
+                Carbon::now()->endOfMonth()
+            ])
+            ->sum('amount');
+
+        $thisYearsExpense = DailyExpense::whereBetween('created_at', [
+                Carbon::now()->startOfYear(),
+                Carbon::now()->endOfYear()
+            ])
+            ->sum('amount');
 
         // $totalSalesDues = 0;
         // $todaysDailySalesRevenue = DailySale::whereDate('date', Carbon::today())->where('status','1')->sum('total_amount');
@@ -81,7 +127,22 @@ class FrontendController extends Controller
         // $thisMonthDailyExpense = DailyExpense::whereMonth('date', now()->month)->whereYear('date', now()->year)->sum('amount');
         
         
-        return view('frontend.pages.index', compact('todaysSalesRevenue','thisWeeksSalesRevenue','thisMonthsSalesRevenue','thisYearsSalesRevenue'));       
+       return view('frontend.pages.index', compact(
+            'todaysSalesRevenue',
+            'thisWeeksSalesRevenue',
+            'thisMonthsSalesRevenue',
+            'thisYearsSalesRevenue',
+            'todaysPurchaseRevenue',
+            'thisWeeksPurchaseRevenue',
+            'thisMonthsPurchaseRevenue',
+            'thisYearsPurchaseRevenue',
+            'todaysExpense',
+            'thisWeeksExpense',
+            'thisMonthsExpense',
+            'thisYearsExpense'
+        ));
+
+      
     }
 
     public function about()

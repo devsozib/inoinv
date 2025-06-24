@@ -33,7 +33,7 @@ label{
     width: 55%!important;
 }
 </style>
-<form action="{{route('sales.store')}}" method="post">
+<form action="{{route('sales.store')}}" method="post" target="_blank">
     @csrf
 <div class="content container-fluid pt-0">
 					<div class="card mb-3">
@@ -94,8 +94,7 @@ label{
 							<!-- /Page Header -->				
 							<div class="row">
 								<div class="col-md-12">
-									<form action="{{route('sales.store')}}" method="post">
-                                        @csrf
+									
 										
 
 
@@ -248,7 +247,7 @@ label{
 										<div class="add-customer-btns text-left">
 											<button type="submit" class="btn customer-btn-save">Submit</button>
 										</div>
-									</form>
+									
 								</div>
 							</div>
 						</div>

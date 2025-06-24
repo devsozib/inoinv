@@ -50,7 +50,7 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label for="total_price" class="form-label">Total Price</label>
+                            <label for="total_price" class="form-label">Paybale Total Price</label>
                             <input type="number" step="0.01" name="total_price" class="form-control" required>
                         </div>
 
@@ -91,10 +91,11 @@
       <div class="card-table">
             <div class="card-body">
                 <div class="table-responsive">
-                <table class="table table-center table-hover datatable">
+                <table class="table table-center table-hover">
                     <thead>
                     <tr>
                         <th>#</th>
+                        <th>Date</th>
                         <th>Product</th>
                         <th>Vendor</th>
                         <th>Qty</th>
@@ -109,6 +110,7 @@
                     @foreach($purchases as $purchase)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
+                        <td>{{$purchase->created_at->format('Y-m-d')}}</td>
                         <td>{{ $purchase->product->name ?? 'N/A' }}({{ $purchase->product->model ?? 'N/A' }})</td>
                         <td>{{ $purchase->vendor->name ?? 'N/A' }}</td>
                         <td>{{ $purchase->quantity }}</td>
@@ -165,8 +167,8 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="edit-unit_price-{{ $purchase->id }}" class="form-label">Unit Price</label>
-                                            <input id="edit-unit_price-{{ $purchase->id }}" name="unit_price" value="{{ $purchase->unit_price }}" class="form-control" placeholder="Unit Price" readonly />
+                                            <label for="edit-unit_price-{{ $purchase->id }}" class="form-label">Last Unit Price</label>
+                                            <input id="edit-unit_price-{{ $purchase->id }}" name="unit_price" value="{{ $purchase->unit_price }}" class="form-control" placeholder="Unit Price" />
                                         </div>
 
                                         <div class="mb-3">
@@ -175,7 +177,7 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="edit-total_price-{{ $purchase->id }}" class="form-label">Total Price</label>
+                                            <label for="edit-total_price-{{ $purchase->id }}" class="form-label">Paybale Total Price</label>
                                             <input id="edit-total_price-{{ $purchase->id }}" name="total_price" value="{{ $purchase->total_price }}" class="form-control" placeholder="Total Price" />
                                         </div>
 

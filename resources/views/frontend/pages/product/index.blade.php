@@ -73,8 +73,8 @@
                               <input type="text" name="model_name" id="model_name" class="form-control" placeholder="Enter product model name" value="{{ old('model_name') }}" required>
                             </div>
                             <div class="mb-3">
-                              <label for="warranty" class="form-label">Warranty <span class="text-danger">*</span></label>
-                              <input type="text" name="warranty" id="warranty" class="form-control" placeholder="Enter product Warranty" value="{{ old('warranty') }}" required>
+                              <label for="warranty" class="form-label">Warranty(Days)<span class="text-danger">*</span></label>
+                              <input type="text" name="warranty" id="warranty" class="form-control" placeholder="Enter how many days" value="{{ old('warranty') }}" required>
                             </div>
                             <div class="mb-3">
                               <label for="status" class="form-label">Status</label>
@@ -102,7 +102,7 @@
       <div class="card-table">
         <div class="card-body">
           <div class="table-responsive">
-           <table id="productTable" class="table table-center table-hover datatable">
+           <table id="productTable" class="table table-center table-hover">
               <thead class="thead-light">
                 <tr>
                   <th>#</th>
@@ -205,8 +205,8 @@
                     </div>
 
                     <div class="mb-3">
-                      <label for="warranty{{ $product->id }}" class="form-label">Warranty <span class="text-danger">*</span></label>
-                      <input type="text" name="warranty" id="warranty{{ $product->id }}" class="form-control" placeholder="Enter product Warranty" value="{{ old('model_name', $product->warranty ?? '') }}" required>
+                      <label for="warranty{{ $product->id }}" class="form-label">Warranty (Days)<span class="text-danger">*</span></label>
+                      <input type="text" name="warranty" id="warranty{{ $product->id }}" class="form-control" placeholder="Enter how many days" value="{{ old('model_name', $product->warranty ?? '') }}" required>
                     </div>
 
                     <!-- Status -->

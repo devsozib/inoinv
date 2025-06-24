@@ -1,24 +1,5 @@
 @extends('frontend.layouts.app')
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<style>
-.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
-  border-color: transparent transparent #888 transparent;
-  border-width: 0 !important;
-}
-.select2-container--default .select2-selection--single .select2-selection__arrow b {
-  border-color: #888 transparent transparent transparent;
-  border-style: solid;
-  border-width: 0 !important;
-  height: 0;
-  left: 50%;
-  margin-left: -4px;
-  margin-top: -2px;
-  position: absolute;
-  top: 50%;
-  width: 0;
-}
-</style>
 
 <div class="content container-fluid">
   <div class="page-header">
@@ -41,7 +22,7 @@
       <div class="card-table">
         <div class="card-body">
           <div class="table-responsive">
-            <table id="brandTable" class="table table-center table-hover datatable">
+            <table id="brandTable" class="table table-center table-hover">
               <thead class="thead-light">
                 <tr>
                   <th>#</th>
@@ -101,6 +82,4 @@
   </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 @endsection

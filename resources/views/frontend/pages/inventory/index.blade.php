@@ -93,7 +93,7 @@
       <div class="card-table">
         <div class="card-body">
           <div class="table-responsive">
-            <table id="productTable" class="table table-hover datatable">
+            <table id="productTable" class="table table-hover">
               <thead class="thead-light">
                 <tr>
                   <th>#</th>

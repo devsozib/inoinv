@@ -98,18 +98,15 @@
         <div class="card-body">
           <div class="table-responsive">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer">
-              <table class="table table-center table-hover datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+              <table class="table table-center table-hover no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
                 <thead class="thead-light">
                   <tr role="row">
                     <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending">#</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending">Date</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending">Name</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Phone</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Bill</th>
-                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Discount</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Payble</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending">Sales By</th>
-
                     <th class="no-sort sorting_disabled" rowspan="1" colspan="1" aria-label="Actions">Actions</th>
                   </tr>
                 </thead>
@@ -132,8 +129,6 @@
                     <td>
                       <h2 class="table-avatar"> <span>{{$service->phone}}</span></h2>
                     </td>
-                    <td> {{$service->bill}} </td>
-                    <td> {{$service->discount}} </td>
                     <td> {{$service->payble}} </td>
                     <td> {{$service->sales_by}} </td>
                     <td class="d-flex align-items-center">
@@ -160,9 +155,12 @@
                                   @method('DELETE')
                                 </form>
                             </li>
-                            <li class="d-none">
-                              <a class="dropdown-item" href="">
-                                <i class="far fa-eye me-2"></i>View </a>
+                            <li>
+                                <a href="javascript:void(0)" 
+                                  class="dropdown-item view-sale-details-btn" 
+                                  data-sale-id="{{ $service->id }}">
+                                  <i class="far fa-eye me-2"></i> Details
+                                </a>
                             </li>
                           </ul>
                         </div>
@@ -171,6 +169,22 @@
                   </tr>
                 @endforeach
                 </tbody>
+                <!-- Sale Details Modal -->
+                <div class="modal fade" id="saleDetailsModal" tabindex="-1" aria-labelledby="saleDetailsModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="saleDetailsModalLabel">Sale Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body" id="saleDetailsContent">
+                        <!-- Content loaded dynamically -->
+                        <p>Loading...</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </table>
               
               <div class="dataTables_length" id="DataTables_Table_0_length">
@@ -206,5 +220,66 @@
     </div>
   </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('.view-sale-details-btn').click(function () {
+      let saleId = $(this).data('sale-id');
+      
+      // Use Laravel's route helper to generate URL pattern with placeholder
+      let urlTemplate = "{{ route('sales.details', ':id') }}";
+      let url = urlTemplate.replace(':id', saleId);
+
+      $('#saleDetailsContent').html('<p>Loading...</p>');
+
+      $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (res) {
+          let sale = res.sale;
+          let items = res.items;
+
+          let html = `
+            <h6>Customer: ${sale.name} (${sale.phone})</h6>
+            <p>Address: ${sale.address}</p>
+            <p>Bill: ${sale.bill}</p>
+            <p>Discount: ${sale.discount}</p>
+            <p>Payable: ${sale.payble}</p>
+            <hr>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Warranty (Days)</th>
+                  <th>Unit Price</th>
+                  <th>Quantity</th>
+                  <th>Total Price</th>
+                </tr>
+              </thead>
+              <tbody>`;
+
+            items.forEach(function (item) {
+                html += `<tr>
+                  <td>${item.name} (${item.model || ''})</td>
+                  <td>${item.warranty || 'N/A'} <br><small class="text-muted">(${item.warranty_days_left} day(s) left)</small></td>
+                  <td>${item.unit_price}</td>
+                  <td>${item.qty}</td>
+                  <td>${item.total_price}</td>
+                </tr>`;
+              });
+
+
+          html += `</tbody></table>`;
+
+          $('#saleDetailsContent').html(html);
+          $('#saleDetailsModal').modal('show');
+        },
+        error: function () {
+          $('#saleDetailsContent').html('<p>Error loading sale details.</p>');
+        }
+      });
+    });
+  });
+</script>
 
 @endsection

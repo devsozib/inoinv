@@ -23,7 +23,7 @@
 
   <div class="content container-fluid">
   
-  <h3>Overview</h3>
+  <h3>Overview Sales</h3>
   <div class="row g-3">
 
       <div class="col-md-3">
@@ -108,6 +108,177 @@
         </div>
       </div>
   </div>
+
+  <h3>Overview Purchase</h3>
+  <div class="row g-3">
+    <div class="col-md-3">
+      <div class="card position-relative d-flex flex-row align-items-center"
+          style="border: 1px solid #eee; border-radius: 8px; background: #fff; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); padding:8px">
+      
+          <div class="position-absolute" style="top: 10px; right: 10px; cursor: pointer;">
+            <i class="fa fa-ellipsis-v"></i>
+          </div>
+
+          <div class="icon d-flex align-items-center justify-content-center"
+              style="background:#A4E6FF; padding: 15px; border-radius: 8px;">
+              <img src="{{asset('assets')}}/img/money.png" alt="" style="width: 64px;">
+          </div>
+
+          <div class="content">
+              <h6 class="mb-1" style="color: #6c757d;">Today's Purchase</h6>
+              <p class="fw-bold mb-0" style="color: #333; font-size:20px; font-weight:bold">{{$todaysPurchaseRevenue}}</p>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card position-relative d-flex flex-row align-items-center"
+          style="border: 1px solid #eee; border-radius: 8px; background: #fff; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); padding:8px">
+
+          <div class="position-absolute" style="top: 10px; right: 10px; cursor: pointer;">
+            <i class="fa fa-ellipsis-v"></i>
+          </div>
+
+          <div class="icon d-flex align-items-center justify-content-center"
+              style="background:#A4E6FF; padding: 15px; border-radius: 8px;">
+              <img src="{{asset('assets')}}/img/money.png" alt="" style="width: 64px;">
+          </div>
+
+          <div class="content">
+              <h6 class="mb-1" style="color: #6c757d;">This Week Purchase</h6>
+              <p class="fw-bold mb-0" style="color: #333; font-size:20px; font-weight:bold">{{$thisWeeksPurchaseRevenue}}</p>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card position-relative d-flex flex-row align-items-center"
+          style="border: 1px solid #eee; border-radius: 8px; background: #fff; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); padding:8px">
+
+          <div class="position-absolute" style="top: 10px; right: 10px; cursor: pointer;">
+            <i class="fa fa-ellipsis-v"></i>
+          </div>
+
+          <div class="icon d-flex align-items-center justify-content-center"
+              style="background:#A4E6FF; padding: 15px; border-radius: 8px;">
+              <img src="{{asset('assets')}}/img/money.png" alt="" style="width: 64px;">
+          </div>
+
+          <div class="content">
+              <h6 class="mb-1" style="color: #6c757d;">This Month Purchase</h6>
+              <p class="fw-bold mb-0" style="color: #333; font-size:20px; font-weight:bold">{{$thisMonthsPurchaseRevenue}}</p>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card position-relative d-flex flex-row align-items-center"
+          style="border: 1px solid #eee; border-radius: 8px; background: #fff; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); padding:8px">
+
+          <div class="position-absolute" style="top: 10px; right: 10px; cursor: pointer;">
+            <i class="fa fa-ellipsis-v"></i>
+          </div>
+
+          <div class="icon d-flex align-items-center justify-content-center"
+              style="background:#A4E6FF; padding: 15px; border-radius: 8px;">
+              <img src="{{asset('assets')}}/img/money.png" alt="" style="width: 64px;">
+          </div>
+
+          <div class="content">
+              <h6 class="mb-1" style="color: #6c757d;">This Year Purchase</h6>
+              <p class="fw-bold mb-0" style="color: #333; font-size:20px; font-weight:bold">{{$thisYearsPurchaseRevenue}}</p>
+          </div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>Overview Expense</h3>
+  <div class="row g-3">
+
+    <div class="col-md-3">
+      <div class="card position-relative d-flex flex-row align-items-center"
+          style="border: 1px solid #eee; border-radius: 8px; background: #fff; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); padding:8px">
+
+          <div class="position-absolute" style="top: 10px; right: 10px; cursor: pointer;">
+            <i class="fa fa-ellipsis-v"></i>
+          </div>
+
+          <div class="icon d-flex align-items-center justify-content-center"
+              style="background:#FFD3D3; padding: 15px; border-radius: 8px;">
+              <img src="{{asset('assets')}}/img/money.png" alt="" style="width: 64px;">
+          </div>
+
+          <div class="content">
+              <h6 class="mb-1" style="color: #6c757d;">Today's Expense</h6>
+              <p class="fw-bold mb-0" style="color: #333; font-size:20px; font-weight:bold">{{$todaysExpense}}</p>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card position-relative d-flex flex-row align-items-center"
+          style="border: 1px solid #eee; border-radius: 8px; background: #fff; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); padding:8px">
+
+          <div class="position-absolute" style="top: 10px; right: 10px; cursor: pointer;">
+            <i class="fa fa-ellipsis-v"></i>
+          </div>
+
+          <div class="icon d-flex align-items-center justify-content-center"
+              style="background:#FFD3D3; padding: 15px; border-radius: 8px;">
+              <img src="{{asset('assets')}}/img/money.png" alt="" style="width: 64px;">
+          </div>
+
+          <div class="content">
+              <h6 class="mb-1" style="color: #6c757d;">This Week Expense</h6>
+              <p class="fw-bold mb-0" style="color: #333; font-size:20px; font-weight:bold">{{$thisWeeksExpense}}</p>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card position-relative d-flex flex-row align-items-center"
+          style="border: 1px solid #eee; border-radius: 8px; background: #fff; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); padding:8px">
+
+          <div class="position-absolute" style="top: 10px; right: 10px; cursor: pointer;">
+            <i class="fa fa-ellipsis-v"></i>
+          </div>
+
+          <div class="icon d-flex align-items-center justify-content-center"
+              style="background:#FFD3D3; padding: 15px; border-radius: 8px;">
+              <img src="{{asset('assets')}}/img/money.png" alt="" style="width: 64px;">
+          </div>
+
+          <div class="content">
+              <h6 class="mb-1" style="color: #6c757d;">This Month Expense</h6>
+              <p class="fw-bold mb-0" style="color: #333; font-size:20px; font-weight:bold">{{$thisMonthsExpense}}</p>
+          </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card position-relative d-flex flex-row align-items-center"
+          style="border: 1px solid #eee; border-radius: 8px; background: #fff; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); padding:8px">
+
+          <div class="position-absolute" style="top: 10px; right: 10px; cursor: pointer;">
+            <i class="fa fa-ellipsis-v"></i>
+          </div>
+
+          <div class="icon d-flex align-items-center justify-content-center"
+              style="background:#FFD3D3; padding: 15px; border-radius: 8px;">
+              <img src="{{asset('assets')}}/img/money.png" alt="" style="width: 64px;">
+          </div>
+
+          <div class="content">
+              <h6 class="mb-1" style="color: #6c757d;">This Year Expense</h6>
+              <p class="fw-bold mb-0" style="color: #333; font-size:20px; font-weight:bold">{{$thisYearsExpense}}</p>
+          </div>
+      </div>
+    </div>
+
+  </div>
+
+
 
   
   <div class="row">

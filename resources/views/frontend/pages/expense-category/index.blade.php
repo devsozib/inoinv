@@ -69,7 +69,7 @@
       <div class="card-table">
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-center table-hover datatable">
+            <table class="table table-center table-hover">
               <thead class="thead-light">
                 <tr>
                   <th>#</th>

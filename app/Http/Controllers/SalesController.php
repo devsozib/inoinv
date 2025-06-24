@@ -451,6 +451,50 @@ class SalesController extends Controller
         ]);
     }
 
+   public function getSaleDetails($id)
+{
+    // Get sale info with customer info
+    $sale = Sale::select(
+        'sales.*',
+        'customers.name',
+        'customers.phone',
+        'customers.address'
+    )
+    ->join('customers', 'customers.id', '=', 'sales.customer_id')
+    ->where('sales.id', $id)
+    ->firstOrFail();
+
+    // Get items for this sale with warranty info
+    $items = \DB::table('sales_items')
+        ->select(
+            'sales_items.*',
+            'products.name',
+            'products.model',
+            'sales_items.warranty',
+            'sales_items.unit_price',
+            'sales_items.qty',
+            'sales_items.total_price'
+        )
+        ->join('products', 'products.id', '=', 'sales_items.product_id')
+        ->where('sales_items.order_id', $id)
+        ->get()
+        ->map(function ($item) use ($sale) {
+            $warrantyStart = \Carbon\Carbon::parse($sale->created_at);
+            $warrantyEnd = $warrantyStart->copy()->addDays($item->warranty);
+            $daysLeft = $warrantyEnd->isFuture() ? now()->diffInDays($warrantyEnd) : 0;
+
+            $item->warranty_days_left = $daysLeft;
+            return $item;
+        });
+
+    return response()->json([
+        'sale' => $sale,
+        'items' => $items,
+    ]);
+}
+
+
+
 }
 
 

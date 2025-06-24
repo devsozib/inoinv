@@ -99,6 +99,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('sales', SalesController::class);
         Route::get('sales/invoice/{id}', [SalesController::class, 'makeInvoice'])->name('sales.invoice');
         Route::get('sales-payments', [SalesController::class, 'payments'])->name('sales.payments');
+        Route::get('sales/{id}/details', [SalesController::class, 'getSaleDetails'])->name('sales.details');
     });
     Route::group(['middleware' => ['permission:Report Management']], function () {
         Route::get('purchase-report', [PurchaseController::class, 'reportIndex'])->name('purchase.report');

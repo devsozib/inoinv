@@ -1074,15 +1074,19 @@
             </div>
           </div>
         </div>
-        <div class="d-print-none" style="display:flex; justify-content:center;">
-          <button onclick="printPage(true)" class="d-print-none btn btn-sm btn-primary mt-2">Print</button>
-        </div>
+      <div class="d-print-none" style="display:flex; justify-content:center; gap:10px; margin-top: 10px;">
+        <button onclick="printPage(true)" class="btn btn-sm btn-primary">Print</button>
+        <button onclick="downloadPDF()" class="btn btn-sm btn-secondary">Download Invoice</button>
+      </div>
       </div>
     </div>
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
     <script type="application/javascript">
       $(document).ready(function() {
         // printPage();
@@ -1150,6 +1154,34 @@
           window.print();
         }
       }
+      
     </script>
+
+    <script>
+  async function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  const invoice = document.querySelector('.fk-print');
+  const buttons = document.querySelector('.d-print-none'); // buttons container
+
+  // Hide buttons before capturing
+  buttons.style.display = 'none';
+
+  // Capture invoice without buttons
+  const canvas = await html2canvas(invoice, { scale: 2 });
+
+  // Show buttons again
+  buttons.style.display = 'flex';
+
+  const imgData = canvas.toDataURL('image/png');
+  const pdf = new jsPDF('p', 'pt', 'a4');
+  const pdfWidth = pdf.internal.pageSize.getWidth();
+  const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+  pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+  pdf.save('invoice.pdf');
+}
+
+</script>
+
   </body>
 </html>

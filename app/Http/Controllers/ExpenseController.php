@@ -74,7 +74,10 @@ class ExpenseController extends Controller
 
         // PDF export shortcut
         if ($request->search_for === 'pdf') {
-            return view('pdf.daily_expense', compact('dailyExpense','request','categories'));
+              $pdf = Pdf::loadView('pdf.daily_expense', compact('dailyExpense', 'request', 'categories'))
+            ->setPaper('A4', 'portrait'); // Optional: change size/orientation
+
+            return $pdf->download('daily_expense.pdf');
         }
 
         // Render index view
