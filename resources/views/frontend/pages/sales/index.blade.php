@@ -25,7 +25,7 @@
   <div class="page-header">
    
     <form action="{{route('sales.index')}}" method="get">
-      <div class="row d-none">
+      <div class="row">
         <div class="col-12 col-md-2">
             <label for="">From</label>
             <input type="date" name="from" class="form-control" value="{{isset($request) ? $request->from : ''}}">
@@ -34,22 +34,16 @@
           <label for="">To</label><br>
           <input type="date" name="to" class="form-control" value="{{isset($request) ? $request->to : ''}}">
         </div>
-        <div class="col-12 col-md-2 ">
-          <label for="">Sales Type</label><br>
-          <select name="sales_type" id="" class="form-select">
-            <option value="">--Select--</option>
-            <option value="paid" {{ (isset($request) && $request->sales_type == 'paid') ? 'selected' : ''}} >Paid</option>
-            <option value="due" {{ (isset($request) && $request->sales_type == 'due') ? 'selected' : ''}}>Due</option>
-          </select>
-        </div>
+   
         <div class="col-12 col-md-2">
           <label for="">Search By</label><br>
-          <select name="serach_by" id="" class="form-select">
+          <select name="search_by" id="" class="form-select">
             <option value="">--Select--</option>
-            <option value="name" {{ (isset($request) && $request->serach_by == 'name') ? 'selected' : ''}} >Name</option>
-            <option value="phone" {{ (isset($request) && $request->serach_by == 'phone') ? 'selected' : ''}}>Phone</option>
-            <option value="email" {{ (isset($request) && $request->serach_by == 'email') ? 'selected' : ''}}>Email</option>
-            <option value="product_name" {{ (isset($request) && $request->serach_by == 'product_name') ? 'selected' : ''}}>Product Name</option>
+            <option value="order_no" {{ (isset($request) && $request->search_by == 'order_no') ? 'selected' : ''}} >Order No</option>
+            <option value="name" {{ (isset($request) && $request->search_by == 'name') ? 'selected' : ''}} >Name</option>
+            <option value="phone" {{ (isset($request) && $request->search_by == 'phone') ? 'selected' : ''}}>Phone</option>
+            <option value="email" {{ (isset($request) && $request->search_by == 'email') ? 'selected' : ''}}>Email</option>
+            <option value="product_name" {{ (isset($request) && $request->search_by == 'product_name') ? 'selected' : ''}}>Product Name</option>
           </select>
         </div>
         <div class="col-12 col-md-2">
@@ -103,6 +97,7 @@
                   <tr role="row">
                     <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending">#</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending">Date</th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending">Order No</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Name: activate to sort column ascending">Name</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Phone</th>
                     <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Phone: activate to sort column ascending">Payble</th>
@@ -116,6 +111,9 @@
                     <td class="sorting_1">{{$loop->index+1}}</td>
                     <td>
                       <h2 class="table-avatar"> <span>{{$service->created_at->format('Y-m-d')}}</span></h2>
+                    </td>
+                     <td>
+                      <h2 class="table-avatar"> <span>{{$service->order_no}}</span></h2>
                     </td>
                     <td>
                       <h2 class="table-avatar">
@@ -138,7 +136,13 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                           <ul>
-                            
+                            <li>
+                                <a href="javascript:void(0)" 
+                                  class="dropdown-item view-sale-details-btn" 
+                                  data-sale-id="{{ $service->id }}">
+                                  <i class="far fa-eye me-2"></i> Details
+                                </a>
+                            </li>
                             <li>
                               <a class="dropdown-item" target="_blank" href="{{route('sales.invoice', $service->id)}}">
                                 <i class="far fa-edit me-2"></i>Invoice </a>
@@ -155,13 +159,7 @@
                                   @method('DELETE')
                                 </form>
                             </li>
-                            <li>
-                                <a href="javascript:void(0)" 
-                                  class="dropdown-item view-sale-details-btn" 
-                                  data-sale-id="{{ $service->id }}">
-                                  <i class="far fa-eye me-2"></i> Details
-                                </a>
-                            </li>
+                            
                           </ul>
                         </div>
                       </div>

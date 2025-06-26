@@ -38,20 +38,16 @@ class SalesController extends Controller
             $defaultFilter = false;
         }
 
-        if ($request->sales_type != "") {
-            if($request->sales_type=="paid"){
-                $services = $services->where('sales.due_amount', '=', '0');
-                $defaultFilter = false;
-            }
-            if($request->sales_type=="due"){
-                $services = $services->where('sales.due_amount', '>', '0');
-                $defaultFilter = false;
-            }
+   
+
+        if ($request->search_by == 'order_no' && $request->key != "") {
+            $services = $services->where('sales.order_no', 'like', '%' . $request->key . '%');
+            $defaultFilter = false;
         }
 
-        if ($request->serach_by != "" && $request->key != "") {
-           $services = $services->where('sales.'.$request->serach_by, 'like', '%' . $request->key . '%');
-           $defaultFilter = false;
+        if (in_array($request->search_by, ['name', 'phone', 'email']) && $request->key != "") {
+            $services = $services->where('customers.' . $request->search_by, 'like', '%' . $request->key . '%');
+            $defaultFilter = false;
         }
 
         if($defaultFilter){
