@@ -68,63 +68,26 @@ class FrontendController extends Controller
           
             ->sum('total_price');
 
-        $todaysExpense = DailyExpense::whereDate('created_at', Carbon::today())
+        $todaysExpense = DailyExpense::whereDate('date', Carbon::today())
             ->sum('amount');
 
-        $thisWeeksExpense = DailyExpense::whereBetween('created_at', [
+        $thisWeeksExpense = DailyExpense::whereBetween('date', [
                 Carbon::now()->startOfWeek(),
                 Carbon::now()->endOfWeek()
             ])
             ->sum('amount');
 
-        $thisMonthsExpense = DailyExpense::whereBetween('created_at', [
+        $thisMonthsExpense = DailyExpense::whereBetween('date', [
                 Carbon::now()->startOfMonth(),
                 Carbon::now()->endOfMonth()
             ])
             ->sum('amount');
 
-        $thisYearsExpense = DailyExpense::whereBetween('created_at', [
+        $thisYearsExpense = DailyExpense::whereBetween('date', [
                 Carbon::now()->startOfYear(),
                 Carbon::now()->endOfYear()
             ])
             ->sum('amount');
-
-        // $totalSalesDues = 0;
-        // $todaysDailySalesRevenue = DailySale::whereDate('date', Carbon::today())->where('status','1')->sum('total_amount');
-        // $thisWeeksDailySalesRevenue = DailySale::whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->where('status','1')->sum('total_amount');
-        // $thisMonthsDailySalesRevenue = DailySale::whereBetween('date', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->where('status','1')->sum('total_amount');
-        // $thisYearsDailySalesRevenue = DailySale::whereBetween('date', [Carbon::now()->startOfYear(), Carbon::now()->endOfYear()])->where('status','1')->sum('total_amount');
-
-        // $thisMonthsDailySalesCardTotal = DailySale::whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year)->where('status', '1')->sum('card_amount');
-        // $thisMonthsDailySalesCashTotal = DailySale::whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year)->where('status', '1')->sum('cash_amount');
-        // $thisMonthsDailySalesOtherTotal = DailySale::whereMonth('date', Carbon::now()->month)->whereYear('date', Carbon::now()->year)->where('status', '1')->sum('others_amount');
-        // $bestDailySellingMonth = DailySale::selectRaw('MONTH(date) as month, SUM(total_amount) as total')->whereYear('date', Carbon::now()->year)->where('status', '1')->groupBy('month')->orderByDesc('total')->first();
-        // $bestDailySellingDate = DailySale::selectRaw('DATE(date) as best_date, SUM(total_amount) as total')->whereYear('date', Carbon::now()->year)->where('status', '1')->groupBy('best_date')->orderByDesc('total')->first();
-
-
-
-        // $monthlyRevenue = Service::selectRaw('MONTH(created_at) as month, SUM(bill) as total')
-        // ->whereYear('created_at', Carbon::now()->year)
-        // ->where('status','1')
-        // ->groupBy('month')
-        // ->pluck('total', 'month')
-        // ->mapWithKeys(function ($total, $month) {
-        //     $monthName = Carbon::createFromFormat('m', $month)->format('M');
-        //     return [$monthName => $total];
-        // });
-
-        // $yearlyRevenue = Service::selectRaw('YEAR(created_at) as year, SUM(bill) as total')
-        // ->whereRaw('YEAR(created_at) >= YEAR(CURDATE()) - 9')
-        // ->where('status','1')
-        // ->groupBy('year')
-        // ->pluck('total', 'year');
-
-        // $monthlySalesTarget = SalesTarget::where('month', date('Y-m'))->first();
-        // $monthlySalesTarget = $monthlySalesTarget?->amount;
-
-        // $todayDailyExpense = DailyExpense::whereDate('date', today())->sum('amount');
-
-        // $thisMonthDailyExpense = DailyExpense::whereMonth('date', now()->month)->whereYear('date', now()->year)->sum('amount');
         
         
        return view('frontend.pages.index', compact(

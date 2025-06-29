@@ -401,6 +401,14 @@ label{
 </script>
 
 
+<!-- 1) dashboard value
+2) sideber scrolling
+3) rename laber 'warranty' to 'warranty(dayes)' on product add
+4) invoice download as pdf
+5)order details page.
+6) rename laber 'total price' to 'total price (payble)' on purchase
+7) warranty count down on order details. -->
+
 
 
 
