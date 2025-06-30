@@ -33,227 +33,220 @@ label{
     width: 55%!important;
 }
 </style>
-<form action="{{route('sales.store')}}" method="post" target="_blank">
+<form action="{{route('sales.store')}}" method="post" target="_blank" onsubmit="reloadAfterSubmit()">
     @csrf
-<div class="content container-fluid pt-0">
-					<div class="card mb-3">
-						<div class="card-body">
-							<!-- Page Header -->
-							<div class="page-header mb-3">
-								<div class="content-page-header mb-3">
-									<h6>Customer Info</h5>
-								</div>	
-							</div>
-							<!-- /Page Header -->				
-							<div class="row">
-								<div class="col-md-12">
-									
-										<div class="form-group-item mb-0 pb-0">
-											<h5 class="form-title d-none">Basic Details</h5>
-											<div class="row">
-												<div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Name <span class="text-danger">*</span></label> 
-														<input type="text" name="name" class="form-control p-2" placeholder="Enter Name" value="{{ old('name') }}" required autocomplete="off">
-													</div>
-												</div>
-												
-
-                                            
-                                                <div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Phone <span class="text-danger">*</span></label>
-                                                       <input type="tel" class="form-control p-2" name="phone" id="phone" pattern="[0-9]{11}" maxlength="11" placeholder="Enter phone number" required>
-													</div>
-												</div>
-
-                                                <div class="col-lg-4 col-md-6 col-sm-12">
-													<div class="input-block mb-3">
-														<label>Address <span class="text-danger">*</span></label>
-                                                        <input type="text"  class="form-control p-2" placeholder="Enter Address" id="address" name="address" value="{{ old('address') }}" required autocomplete="off">
-													</div>
-												</div>
-
-											</div>
+	<div class="content container-fluid pt-0">
+		<div class="card mb-3">
+			<div class="card-body">
+				<!-- Page Header -->
+				<div class="page-header mb-3">
+					<div class="content-page-header mb-3">
+						<h6>Customer Info</h5>
+					</div>	
+				</div>
+				<!-- /Page Header -->				
+				<div class="row">
+					<div class="col-md-12">
+						
+							<div class="form-group-item mb-0 pb-0">
+								<h5 class="form-title d-none">Basic Details</h5>
+								<div class="row">
+									<div class="col-lg-4 col-md-6 col-sm-12">
+										<div class="input-block mb-3">
+											<label>Name <span class="text-danger">*</span></label> 
+											<input type="text" name="name" class="form-control p-2" placeholder="Enter Name" value="{{ old('name') }}" required autocomplete="off">
 										</div>
-
+									</div>
 									
+
+								
+									<div class="col-lg-4 col-md-6 col-sm-12">
+										<div class="input-block mb-3">
+											<label>Phone <span class="text-danger">*</span></label>
+											<input type="tel" class="form-control p-2" name="phone" id="phone" pattern="[0-9]{11}" maxlength="11" placeholder="Enter phone number" required>
+										</div>
+									</div>
+
+									<div class="col-lg-4 col-md-6 col-sm-12">
+										<div class="input-block mb-3">
+											<label>Address <span class="text-danger">*</span></label>
+											<input type="text"  class="form-control p-2" placeholder="Enter Address" id="address" name="address" value="{{ old('address') }}" required autocomplete="off">
+										</div>
+									</div>
+
+								</div>
+							</div>
+
+						
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="card mb-0">
+			<div class="card-body">
+				<!-- Page Header -->
+				<div class="page-header mb-3">
+					<div class="content-page-header mb-3">
+						<h6>Cart Info</h6>
+					</div>	
+				</div>
+				<!-- /Page Header -->				
+				<div class="row">
+					<div class="col-md-12">
+						
+							
+
+
+
+
+							
+							<div class="group-item" data-itemnumber="1" id="form-group-item1" style="background:#198754; color:#fff !important; padding: 10px 5px;">
+								<!-- <table>
+									<tr>
+										<td><label style="color:#fff !important;">Product Name</label></td>
+										<td><label style="color:#fff !important;">Warranty</label></td>
+										<td><label style="color:#fff !important;"> Purchase Price</label></td>
+										<td><label style="color:#fff !important;"> Unit Price</label></td>
+										<td><label style="color:#fff !important;">Qty</label></td>
+										<td><label style="color:#fff !important;">Total</label></td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>
+											<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" required>
+												<option value=""></option>
+												@foreach ($products as $product)
+													<option value="{{ $product->id }}" data-name="{{ $product->name }}({{$product->model}})" data-price="{{ $product->latestPurchase->unit_price??0 }}">
+														{{ $product->name }}({{$product->model}})
+													</option>
+												@endforeach
+											</select>
+										</td>
+										<td>
+											<input type="number" id="Warranty" style="height: 30px;" class="form-control Warranty" >
+										</td>
+										<td>
+											<input type="number" id="purchase_price1" style="height: 30px;" class="form-control" readonly>
+										</td>
+										<td>
+											<input onchange="calculateTotal()" type="number" id="unit_price1" style="height: 30px;" class="form-control unit-price" >
+										</td>
+										<td>
+											<input onchange="calculateTotal()" type="number" id="qty1" style="height: 30px;" class="form-control qty" min="0">
+										</td>
+										<td>
+											<input type="number" id="total1" style="height: 30px;" class="form-control total" readonly>
+										</td>
+										<td>
+											<button onclick="addItem()"  type="button" class=" btn btn-primary addItemBtn">Add</button>
+										</td>
+									</tr>
+								</table> -->
+
+								<style>
+									@media (min-width: 768px) {
+										.col-md-2 {
+											width: 13% !important;
+											padding-left: 5px;
+											padding-right: 5px;
+										}
+									}
+								</style>
+
+								<div class="row align-items-end">
+									<div class="col-md-3">
+										<label style="color:#fff !important;">Product Name</label>
+										<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" required>
+											<option value=""></option>
+											@foreach ($products as $product)
+												<option value="{{ $product->id }}" data-name="{{ $product->name }}({{$product->model}})" data-price="{{ $product->latestPurchase->unit_price??0 }}" data-warranty="{{ $product->warranty??0 }}">
+													{{ $product->name }}({{$product->model}})
+												</option>
+											@endforeach
+										</select>
+									</div>
+									<div class="col-md-2">
+										<label style="color:#fff !important;"> Warranty</label>
+										<input type="number" id="warranty1" style="height: 30px;" class="form-control" readonly>
+									</div>
+									<div class="col-md-2">
+										<label style="color:#fff !important;"> Purchase Price</label>
+										<input type="number" id="purchase_price1" style="height: 30px;" class="form-control" readonly>
+									</div>
+									<div class="col-md-2">
+										<label style="color:#fff !important;"> Unit Price</label>
+										<input onchange="calculateTotal()" type="number" id="unit_price1" style="height: 30px;" class="form-control unit-price" >
+									</div>
+									<div class="col-md-2">
+										<label style="color:#fff !important;">Qty</label>
+										<input onchange="calculateTotal()" type="number" id="qty1" style="height: 30px;" class="form-control qty" min="0">
+									</div>
+									<div class="col-md-2">
+										<label style="color:#fff !important;">Total</label>
+										<input type="number" id="total1" style="height: 30px;" class="form-control total" readonly>
+									</div>
+									<div class="col-md-1 text-end btn-holder">
+										<button onclick="addItem()"  type="button" class=" btn btn-primary addItemBtn">Add</button>
+									</div>
+								</div>
+
+							</div>
+
+							<hr>
+
+						<div class=""  style="color:#000 !important;">
+							<div class="row align-items-end">
+								<div class="col-md-4">
+									<label style="color:#000 !important;">Product Name</label>
+								</div>
+								<div class="col-md-2">
+									<label style="color:#000 !important;"> Unit Price</label>
+								</div>
+								<div class="col-md-2">
+									<label style="color:#000 !important;">Qty</label>
+								</div>
+								<div class="col-md-2">
+									<label style="color:#000 !important;">Total</label>
+								</div>
+								<div class="col-md-1 text-end btn-holder">
 								</div>
 							</div>
 						</div>
-					</div>
+						<div id="item_container">
+							
+						</div>
+						<hr>
 
-					<div class="card mb-0">
-						<div class="card-body">
-							<!-- Page Header -->
-							<div class="page-header mb-3">
-								<div class="content-page-header mb-3">
-									<h6>Cart Info</h6>
-								</div>	
+						<br>
+						<div id="summerySection" class="row d-flef justify-content-end align-items-end d-none">
+							<div class="col-md-4"></div>
+							<div class="col-md-2">
+								<label>Sub Total</label>
+								<input onchange="calculateTotal()" type="number" id="subTotal" name="subTotal" style="height: 30px;" class="form-control total" readonly>
 							</div>
-							<!-- /Page Header -->				
-							<div class="row">
-								<div class="col-md-12">
-									
-										
-
-
-
-
-										
-										<div class="group-item" data-itemnumber="1" id="form-group-item1" style="background:#198754; color:#fff !important; padding: 10px 5px;">
-											<!-- <table>
-												<tr>
-													<td><label style="color:#fff !important;">Product Name</label></td>
-													<td><label style="color:#fff !important;">Warranty</label></td>
-													<td><label style="color:#fff !important;"> Purchase Price</label></td>
-													<td><label style="color:#fff !important;"> Unit Price</label></td>
-													<td><label style="color:#fff !important;">Qty</label></td>
-													<td><label style="color:#fff !important;">Total</label></td>
-													<td></td>
-												</tr>
-												<tr>
-													<td>
-														<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" required>
-															<option value=""></option>
-															@foreach ($products as $product)
-																<option value="{{ $product->id }}" data-name="{{ $product->name }}({{$product->model}})" data-price="{{ $product->latestPurchase->unit_price??0 }}">
-																	{{ $product->name }}({{$product->model}})
-																</option>
-															@endforeach
-														</select>
-													</td>
-													<td>
-														<input type="number" id="Warranty" style="height: 30px;" class="form-control Warranty" >
-													</td>
-													<td>
-														<input type="number" id="purchase_price1" style="height: 30px;" class="form-control" readonly>
-													</td>
-													<td>
-														<input onchange="calculateTotal()" type="number" id="unit_price1" style="height: 30px;" class="form-control unit-price" >
-													</td>
-													<td>
-														<input onchange="calculateTotal()" type="number" id="qty1" style="height: 30px;" class="form-control qty" min="0">
-													</td>
-													<td>
-														<input type="number" id="total1" style="height: 30px;" class="form-control total" readonly>
-													</td>
-													<td>
-														<button onclick="addItem()"  type="button" class=" btn btn-primary addItemBtn">Add</button>
-													</td>
-												</tr>
-											</table> -->
-
-											<style>
-												@media (min-width: 768px) {
-													.col-md-2 {
-														width: 13% !important;
-														padding-left: 5px;
-    													padding-right: 5px;
-													}
-												}
-											</style>
-
-											<div class="row align-items-end">
-												<div class="col-md-3">
-													<label style="color:#fff !important;">Product Name</label>
-													<select onchange="selectProduct(1)" id="product1" class="form-control js-example-basic-single" style="height: 30px;" required>
-														<option value=""></option>
-														@foreach ($products as $product)
-															<option value="{{ $product->id }}" data-name="{{ $product->name }}({{$product->model}})" data-price="{{ $product->latestPurchase->unit_price??0 }}" data-warranty="{{ $product->warranty??0 }}">
-																{{ $product->name }}({{$product->model}})
-															</option>
-														@endforeach
-													</select>
-												</div>
-												<div class="col-md-2">
-													<label style="color:#fff !important;"> Warranty</label>
-													<input type="number" id="warranty1" style="height: 30px;" class="form-control" readonly>
-												</div>
-												<div class="col-md-2">
-													<label style="color:#fff !important;"> Purchase Price</label>
-													<input type="number" id="purchase_price1" style="height: 30px;" class="form-control" readonly>
-												</div>
-												<div class="col-md-2">
-													<label style="color:#fff !important;"> Unit Price</label>
-													<input onchange="calculateTotal()" type="number" id="unit_price1" style="height: 30px;" class="form-control unit-price" >
-												</div>
-												<div class="col-md-2">
-													<label style="color:#fff !important;">Qty</label>
-													<input onchange="calculateTotal()" type="number" id="qty1" style="height: 30px;" class="form-control qty" min="0">
-												</div>
-												<div class="col-md-2">
-													<label style="color:#fff !important;">Total</label>
-													<input type="number" id="total1" style="height: 30px;" class="form-control total" readonly>
-												</div>
-												<div class="col-md-1 text-end btn-holder">
-													<button onclick="addItem()"  type="button" class=" btn btn-primary addItemBtn">Add</button>
-												</div>
-											</div>
-
-										</div>
-
-										<hr>
-
-									<div class=""  style="color:#000 !important;">
-										<div class="row align-items-end">
-											<div class="col-md-4">
-												<label style="color:#000 !important;">Product Name</label>
-											</div>
-											<div class="col-md-2">
-												<label style="color:#000 !important;"> Unit Price</label>
-											</div>
-											<div class="col-md-2">
-												<label style="color:#000 !important;">Qty</label>
-											</div>
-											<div class="col-md-2">
-												<label style="color:#000 !important;">Total</label>
-											</div>
-											<div class="col-md-1 text-end btn-holder">
-											</div>
-										</div>
-									</div>
-									<div id="item_container">
-										
-									</div>
-									<hr>
-
-									<br>
-									<div id="summerySection" class="row d-flef justify-content-end align-items-end d-none">
-										<div class="col-md-4"></div>
-										<div class="col-md-2">
-											<label>Sub Total</label>
-											<input onchange="calculateTotal()" type="number" id="subTotal" name="subTotal" style="height: 30px;" class="form-control total" readonly>
-										</div>
-										<div class="col-md-2">
-											<label>Discount</label>
-											<input onchange="calculateTotal()" type="number" id="discount" name="discount" style="height: 30px;" class="form-control total" >
-										</div>
-										<div class="col-md-2">
-											<label>Grand Total</label>
-											<input type="number" id="grandTotal" name="grandTotal" style="height: 30px;" class="form-control total" readonly>
-										</div>
-										<div class="col-md-2 text-end btn-holder">
-											
-										</div>
-									</div>
-
-
-
-
-
-
-																	
-										<div class="add-customer-btns text-left">
-											<button type="submit" class="btn customer-btn-save">Submit</button>
-										</div>
-									
-								</div>
+							<div class="col-md-2">
+								<label>Discount</label>
+								<input onchange="calculateTotal()" type="number" id="discount" name="discount" style="height: 30px;" class="form-control total" >
+							</div>
+							<div class="col-md-2">
+								<label>Grand Total</label>
+								<input type="number" id="grandTotal" name="grandTotal" style="height: 30px;" class="form-control total" readonly>
+							</div>
+							<div class="col-md-2 text-end btn-holder">
+								
 							</div>
 						</div>
+														
+							<div class="add-customer-btns text-left">
+								<button type="submit" class="btn customer-btn-save">Submit</button>
+							</div>
+						
 					</div>
-</div>
-
+				</div>
+			</div>
+		</div>
+	</div>
 </form>
 
 
@@ -261,6 +254,14 @@ label{
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+
+<script>
+    function reloadAfterSubmit() {
+        setTimeout(function () {
+            window.location.reload();
+        }, 500); // give it some time to finish submission
+    }
+</script>
 
 <script>
   var itemNumber = 2;
